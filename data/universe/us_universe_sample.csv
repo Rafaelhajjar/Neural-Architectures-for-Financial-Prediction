@@ -1,0 +1,50 @@
+ticker,market_cap,exchange,quote_type,price,avg_volume,avg_volume_10d,sector,industry,name,dollar_volume,pass_market_cap,pass_price,pass_volume,pass_exchange,pass_quote_type,pass_all
+BILL,4576271872,NYQ,EQUITY,45.59,3703907,2564280,Technology,Software - Application,"BILL Holdings, Inc.",168861120.13000003,True,True,True,True,True,True
+BMBL,677725760,NMS,EQUITY,4.265,3140540,2710540,Communication Services,Internet Content & Information,Bumble Inc.,13394403.1,True,False,True,True,True,False
+CAVA,5641564672,NYQ,EQUITY,48.64,5032143,6458600,Consumer Cyclical,Restaurants,"CAVA Group, Inc.",314146304.0,True,True,True,True,True,True
+CELH,10703245312,NCM,EQUITY,41.52,6110420,9338650,Consumer Defensive,Beverages - Non-Alcoholic,"Celsius Holdings, Inc.",387740748.0,False,True,True,False,True,False
+CFLT,7933976576,NMS,EQUITY,22.68,8470517,11401310,Technology,Software - Infrastructure,"Confluent, Inc.",258581710.79999998,True,True,True,True,True,True
+COIN,83357687808,NMS,EQUITY,309.14,9368084,10057340,Financial Services,Financial Data & Stock Exchanges,"Coinbase Global, Inc.",3109126087.6,False,True,True,True,True,False
+CRWD,135468089344,NMS,EQUITY,539.81,2936396,2249540,Technology,Software - Infrastructure,"CrowdStrike Holdings, Inc.",1585095924.7599998,False,True,True,True,True,False
+DDOG,67062276096,NMS,EQUITY,191.24,4617403,5924840,Technology,Software - Application,"Datadog, Inc.",1133066401.6000001,False,True,True,True,True,False
+DOCN,4527031296,NYQ,EQUITY,49.48,3117520,3946110,Technology,Software - Infrastructure,"DigitalOcean Holdings, Inc.",195253522.79999998,True,True,True,True,True,True
+DOCU,14016956416,NMS,EQUITY,69.7,3128623,2299510,Technology,Software - Application,"DocuSign, Inc.",218065023.1,False,True,True,True,True,False
+DUOL,9301406720,NMS,EQUITY,201.21,1901334,3096200,Technology,Software - Application,"Duolingo, Inc.",622986402.0,True,True,True,True,True,True
+ESTC,9566644224,NYQ,EQUITY,90.02,1884921,1397410,Technology,Software - Application,Elastic N.V.,169680588.42,True,True,True,True,True,True
+EXAS,12539210752,NCM,EQUITY,66.18,2765420,3673550,Healthcare,Diagnostics & Research,Exact Sciences Corporation,243115539.00000003,False,True,True,False,True,False
+FOUR,5862162432,NYQ,EQUITY,66.15,2029670,3390260,Technology,Software - Infrastructure,"Shift4 Payments, Inc.",224265699.00000003,True,True,True,True,True,True
+FRSH,3155263744,NMS,EQUITY,11.19,3923925,4478630,Technology,Software - Application,Freshworks Inc.,50115869.699999996,True,True,True,True,True,True
+FSLY,1703944064,NYQ,EQUITY,11.56,3406754,5136200,Technology,Software - Application,"Fastly, Inc.",59374472.0,True,True,True,True,True,True
+GTLB,7596646912,NMS,EQUITY,45.55,4975139,2866810,Technology,Software - Infrastructure,GitLab Inc.,226617581.45,True,True,True,True,True,True
+HIMS,9340418048,NYQ,EQUITY,41.03,28330193,29943940,Healthcare,Drug Manufacturers - Specialty & Generic,"Hims & Hers Health, Inc.",1228599858.2,True,True,True,True,True,True
+HOOD,117218263040,NMS,EQUITY,130.36,37005654,27615120,Financial Services,Capital Markets,"Robinhood Markets, Inc.",4824057055.440001,False,True,True,True,True,False
+IONS,11913218048,NMS,EQUITY,73.55,2471323,2245740,Healthcare,Biotechnology,"Ionis Pharmaceuticals, Inc.",181765806.65,False,True,True,True,True,False
+JAMF,1714573056,NMS,EQUITY,12.87,2809323,7908270,Technology,Software - Application,Jamf Holding Corp.,101779434.89999999,True,True,True,True,True,True
+KVUE,32338737152,NYQ,EQUITY,16.88,35753606,65138350,Consumer Defensive,Household & Personal Products,Kenvue Inc.,1099535348.0,False,True,True,True,True,False
+LCID,5601631232,NMS,EQUITY,17.28,10200296,11921050,Consumer Cyclical,Auto Manufacturers,"Lucid Group, Inc.",205995744.0,True,True,True,True,True,True
+MDB,29373093888,NGM,EQUITY,361.04,2534518,1887870,Technology,Software - Infrastructure,"MongoDB, Inc.",915062378.72,False,True,True,True,True,False
+MTCH,7759626752,NMS,EQUITY,32.87,3982775,4760550,Communication Services,Internet Content & Information,"Match Group, Inc.",156479278.5,True,True,True,True,True,True
+NET,81548951552,NYQ,EQUITY,232.81,2436785,3689370,Technology,Software - Infrastructure,"Cloudflare, Inc.",858922229.7,False,True,True,True,True,False
+NU,76689465344,NYQ,EQUITY,15.87,45320573,28145930,Financial Services,Banks - Regional,Nu Holdings Ltd.,719237493.51,False,True,True,True,True,False
+OKTA,15021320192,NMS,EQUITY,85.21,3049298,1814620,Technology,Software - Infrastructure,"Okta, Inc.",259830682.57999998,False,True,True,True,True,False
+PATH,7593609216,NYQ,EQUITY,14.3,21916857,21581270,Technology,Software - Infrastructure,UiPath Inc.,313411055.1,True,True,True,True,True,True
+PCOR,12375400448,NYQ,EQUITY,79.6,1420168,1710900,Technology,Software - Application,"Procore Technologies, Inc.",136187640.0,False,True,True,True,True,False
+PCTY,7715662848,NMS,EQUITY,141.88,606800,921660,Technology,Software - Application,Paylocity Holding Corporation,130765120.8,True,True,True,True,True,True
+PINS,18300862464,NYQ,EQUITY,27.09,11565765,22127000,Communication Services,Internet Content & Information,"Pinterest, Inc.",599420430.0,False,True,True,True,True,False
+PTON,3200397568,NMS,EQUITY,7.66,12540275,12110530,Consumer Cyclical,Leisure,"Peloton Interactive, Inc.",96058506.5,True,True,True,True,True,True
+RAMP,1903100416,NYQ,EQUITY,29.9,630053,589790,Technology,Software - Infrastructure,"LiveRamp Holdings, Inc.",18838584.7,True,True,True,True,True,True
+RBLX,74993721344,NYQ,EQUITY,106.84,8089826,11360040,Communication Services,Electronic Gaming & Multimedia,Roblox Corporation,1213706673.6000001,False,True,True,True,True,False
+RDFN,0,,NONE,0.0,0,0,,,,0.0,False,False,False,False,False,False
+RIVN,18670655488,NMS,EQUITY,15.23,47158107,65572410,Consumer Cyclical,Auto Manufacturers,"Rivian Automotive, Inc.",998667804.3000001,False,True,True,True,True,False
+ROKU,15115006976,NMS,EQUITY,102.3,3371442,4952640,Communication Services,Entertainment,"Roku, Inc.",506655072.0,False,True,True,True,True,False
+RYAN,15319647232,NYQ,EQUITY,58.06,1641320,2178110,Financial Services,Insurance - Specialty,"Ryan Specialty Holdings, Inc.",126461066.60000001,False,True,True,True,True,False
+S,5670923264,NYQ,EQUITY,16.92,6008596,5503970,Technology,Software - Infrastructure,"SentinelOne, Inc.",101665444.32000001,True,True,True,True,True,True
+SNOW,89056960512,NYQ,EQUITY,262.86,5457667,4407920,Technology,Software - Application,Snowflake Inc.,1434602347.6200001,False,True,True,True,True,False
+SOFI,34018525184,NMS,EQUITY,28.21,71107312,88522210,Financial Services,Credit Services,"SoFi Technologies, Inc.",2497211544.1,False,True,True,True,True,False
+SPOT,127018074112,NYQ,EQUITY,616.91,1552540,2238860,Communication Services,Internet Content & Information,Spotify Technology S.A.,1381175122.6,False,True,True,True,True,False
+SUMO,0,,NONE,0.0,0,0,,,,0.0,False,False,False,False,False,False
+TOST,21756000256,NYQ,EQUITY,37.0,8347193,10648920,Technology,Software - Infrastructure,"Toast, Inc.",394010040.0,False,True,True,True,True,False
+UPST,3755257856,NMS,EQUITY,38.6,7515409,8969900,Financial Services,Credit Services,"Upstart Holdings, Inc.",346238140.0,True,True,True,True,True,True
+WYNN,13115340800,NMS,EQUITY,126.14,1832709,1789210,Consumer Cyclical,Resorts & Casinos,"Wynn Resorts, Limited",231177913.26,False,True,True,True,True,False
+ZM,24453439488,NMS,EQUITY,81.705,3144229,2510600,Technology,Software - Application,Zoom Communications Inc.,256899230.445,False,True,True,True,True,False
+ZS,50657845248,NMS,EQUITY,320.01,1454123,1245860,Technology,Software - Infrastructure,"Zscaler, Inc.",465333901.22999996,False,True,True,True,True,False

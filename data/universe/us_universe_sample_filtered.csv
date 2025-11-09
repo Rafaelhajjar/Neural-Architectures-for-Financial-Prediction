@@ -1,0 +1,21 @@
+ticker,market_cap,exchange,quote_type,price,avg_volume,avg_volume_10d,sector,industry,name,dollar_volume,pass_market_cap,pass_price,pass_volume,pass_exchange,pass_quote_type,pass_all
+BILL,4576271872,NYQ,EQUITY,45.59,3703907,2564280,Technology,Software - Application,"BILL Holdings, Inc.",168861120.13000003,True,True,True,True,True,True
+CAVA,5641564672,NYQ,EQUITY,48.64,5032143,6458600,Consumer Cyclical,Restaurants,"CAVA Group, Inc.",314146304.0,True,True,True,True,True,True
+CFLT,7933976576,NMS,EQUITY,22.68,8470517,11401310,Technology,Software - Infrastructure,"Confluent, Inc.",258581710.79999998,True,True,True,True,True,True
+DOCN,4527031296,NYQ,EQUITY,49.48,3117520,3946110,Technology,Software - Infrastructure,"DigitalOcean Holdings, Inc.",195253522.79999998,True,True,True,True,True,True
+DUOL,9301406720,NMS,EQUITY,201.21,1901334,3096200,Technology,Software - Application,"Duolingo, Inc.",622986402.0,True,True,True,True,True,True
+ESTC,9566644224,NYQ,EQUITY,90.02,1884921,1397410,Technology,Software - Application,Elastic N.V.,169680588.42,True,True,True,True,True,True
+FOUR,5862162432,NYQ,EQUITY,66.15,2029670,3390260,Technology,Software - Infrastructure,"Shift4 Payments, Inc.",224265699.00000003,True,True,True,True,True,True
+FRSH,3155263744,NMS,EQUITY,11.19,3923925,4478630,Technology,Software - Application,Freshworks Inc.,50115869.699999996,True,True,True,True,True,True
+FSLY,1703944064,NYQ,EQUITY,11.56,3406754,5136200,Technology,Software - Application,"Fastly, Inc.",59374472.0,True,True,True,True,True,True
+GTLB,7596646912,NMS,EQUITY,45.55,4975139,2866810,Technology,Software - Infrastructure,GitLab Inc.,226617581.45,True,True,True,True,True,True
+HIMS,9340418048,NYQ,EQUITY,41.03,28330193,29943940,Healthcare,Drug Manufacturers - Specialty & Generic,"Hims & Hers Health, Inc.",1228599858.2,True,True,True,True,True,True
+JAMF,1714573056,NMS,EQUITY,12.87,2809323,7908270,Technology,Software - Application,Jamf Holding Corp.,101779434.89999999,True,True,True,True,True,True
+LCID,5601631232,NMS,EQUITY,17.28,10200296,11921050,Consumer Cyclical,Auto Manufacturers,"Lucid Group, Inc.",205995744.0,True,True,True,True,True,True
+MTCH,7759626752,NMS,EQUITY,32.87,3982775,4760550,Communication Services,Internet Content & Information,"Match Group, Inc.",156479278.5,True,True,True,True,True,True
+PATH,7593609216,NYQ,EQUITY,14.3,21916857,21581270,Technology,Software - Infrastructure,UiPath Inc.,313411055.1,True,True,True,True,True,True
+PCTY,7715662848,NMS,EQUITY,141.88,606800,921660,Technology,Software - Application,Paylocity Holding Corporation,130765120.8,True,True,True,True,True,True
+PTON,3200397568,NMS,EQUITY,7.66,12540275,12110530,Consumer Cyclical,Leisure,"Peloton Interactive, Inc.",96058506.5,True,True,True,True,True,True
+RAMP,1903100416,NYQ,EQUITY,29.9,630053,589790,Technology,Software - Infrastructure,"LiveRamp Holdings, Inc.",18838584.7,True,True,True,True,True,True
+S,5670923264,NYQ,EQUITY,16.92,6008596,5503970,Technology,Software - Infrastructure,"SentinelOne, Inc.",101665444.32000001,True,True,True,True,True,True
+UPST,3755257856,NMS,EQUITY,38.6,7515409,8969900,Financial Services,Credit Services,"Upstart Holdings, Inc.",346238140.0,True,True,True,True,True,True
