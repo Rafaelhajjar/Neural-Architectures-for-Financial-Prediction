@@ -21,11 +21,12 @@ from src.evaluation.analysis import get_feature_importance_gain, backtest_long_s
 
 
 # load the universe of stocks
-universe_path = Path("data/universe/us_universe_sample_filtered.csv")
+universe_path = Path("data/universe/us_universe_full_filtered.csv")
 universe = pd.read_csv(universe_path)
-tickers = universe["ticker"].tolist()
+tickers = universe["ticker"].dropna().unique().tolist()
 
-print(f"Loaded {len(tickers)} tickers.")
+print(f"Loaded {len(tickers)} tickers from {universe_path}")
+print("First few tickers:", tickers[:10])
 
 
 # load prices (cached after first run)
@@ -37,6 +38,16 @@ prices = build_adj_close_panel(
 
 print("Price panel shape:", prices.shape)
 
+if prices.empty:
+    raise SystemExit(
+        "ERROR: prices DataFrame is empty.\n"
+        "This means no price history was loaded for your tickers in the "
+        "date range 2014-01-01 to 2020-12-31.\n"
+        "Check your cached price files or adjust the date range."
+    )
+
+print("First few rows of prices:\n", prices.head())
+print("First few columns (tickers):", list(prices.columns)[:10])
 
 # create basic features
 returns_1d = compute_returns(prices, periods=1)
