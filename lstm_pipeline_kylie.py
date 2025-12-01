@@ -1,5 +1,5 @@
 """
-LSTM baseline for stock return direction (daily or weekly) with MACD added.
+LSTM baseline for stock return direction (daily or weekly)
 
 What it does:
 - Load universe from data/universe/us_universe_full_filtered.csv
@@ -52,7 +52,7 @@ SPLIT_DATE = "2018-01-01"
 MAX_TICKERS = 30
 WINDOW_SIZE = 40
 BATCH_SIZE = 64
-NUM_EPOCHS = 25
+NUM_EPOCHS = 20
 HIDDEN_SIZE = 64
 NUM_LAYERS = 1
 LEARNING_RATE = 1e-3
