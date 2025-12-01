@@ -4,16 +4,16 @@ LSTM baseline for stock return direction.
 What it does:
 - Load universe from data/universe/us_universe_full_filtered.csv
 - Load adjusted close prices with build_adj_close_panel (handles splits/dividends)
-- Compute daily returns with compute_returns
+- Optionally resample to weekly closes (W-FRI)
+- Compute returns with compute_returns
 - Build sliding windows of returns per stock (sequence length = window_size)
-- Train an LSTM to predict whether the next day's return is > 0 (up/down)
+- Train an LSTM to predict whether the next period's return is > 0 (up/down)
 - Split train/test by date (time-based split, like the XGBoost pipeline)
 - Save test predictions to results/lstm_predictions.csv
 """
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 from typing import List, Tuple
 
@@ -23,8 +23,12 @@ import torch
 from torch import nn
 from torch.utils.data import TensorDataset, DataLoader
 
-# Project helpers 
+# Project helpers
 from src.data.panel import build_adj_close_panel, compute_returns
+
+# ---------------------------------------------------------------------
+# Config
+# ---------------------------------------------------------------------
 
 UNIVERSE_PATH = Path("data/universe/us_universe_full_filtered.csv")
 RESULTS_DIR = Path("results")
@@ -34,14 +38,23 @@ END_DATE = "2020-12-31"
 SPLIT_DATE = "2018-01-01"
 
 MAX_TICKERS = 30          # limit due to speed
-WINDOW_SIZE = 20          # how many past days the LSTM sees
+WINDOW_SIZE = 20          # how many past periods the LSTM sees
 BATCH_SIZE = 64
 NUM_EPOCHS = 10
 HIDDEN_SIZE = 32
 NUM_LAYERS = 1
 LEARNING_RATE = 1e-3
 SEED = 42
+
+# "daily" -> use raw daily closes
+# "weekly" -> use Friday (or last trading day) close of each week
 FREQUENCY = "weekly"
+
+
+# ---------------------------------------------------------------------
+# Utilities
+# ---------------------------------------------------------------------
+
 def set_seed(seed: int = 42) -> None:
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -57,10 +70,10 @@ def build_lstm_dataset(
     Build LSTM samples from price data.
 
     Steps:
-      - Compute daily returns using project helper compute_returns.
+      - Compute returns using project helper compute_returns.
       - For each ticker, create sliding windows of length `window_size`.
       - Input X: sequence of normalized returns (window_size, 1)
-      - Label y: 1 if next-day return > 0, else 0
+      - Label y: 1 if next-period return > 0, else 0
       - Also track the date and ticker for each sample so we can do
         a time-based train/test split and interpret outputs.
 
@@ -70,7 +83,7 @@ def build_lstm_dataset(
       dates: (N,) array of pd.Timestamp (for label day)
       tickers: (N,) array of ticker strings
     """
-    # Compute daily returns using the same helper the XGBoost pipeline uses
+    # Compute returns (daily or weekly depending on how prices were passed in)
     rets = compute_returns(prices, periods=1).dropna(how="all")
 
     X_list: List[np.ndarray] = []
@@ -93,7 +106,7 @@ def build_lstm_dataset(
 
         # Create sliding windows
         for i in range(len(s_norm) - window_size):
-            window = s_norm.iloc[i : i + window_size].values.astype(np.float32)
+            window = s_norm.iloc[i: i + window_size].values.astype(np.float32)
             window = window.reshape(-1, 1)  # (window_size, 1)
 
             future_ret = s.iloc[i + window_size]  # unnormalized return for label
@@ -105,12 +118,16 @@ def build_lstm_dataset(
             date_list.append(label_date)
             ticker_list.append(ticker)
 
+    if not X_list:
+        raise ValueError("No LSTM samples built – check window_size / data length.")
+
     X = np.stack(X_list, axis=0)  # (N, window_size, 1)
     y = np.array(y_list, dtype=np.int64)
     dates = np.array(date_list)
     tickers = np.array(ticker_list)
 
     return X, y, dates, tickers
+
 
 class LSTMBinaryClassifier(nn.Module):
     def __init__(self, input_size: int, hidden_size: int, num_layers: int = 1):
@@ -134,6 +151,10 @@ class LSTMBinaryClassifier(nn.Module):
         return logits
 
 
+# ---------------------------------------------------------------------
+# Main pipeline
+# ---------------------------------------------------------------------
+
 def main():
     set_seed(SEED)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -150,45 +171,45 @@ def main():
     print(f"Total tickers in file: {len(all_tickers)}; using first {len(tickers)}")
     print("Some tickers:", tickers[:10])
 
+    # 2. Load adjusted close prices
     print("\nLoading adjusted close prices via build_adj_close_panel...")
-prices = build_adj_close_panel(
-    tickers,
-    start=START_DATE,
-    end=END_DATE,
-)
-print("Raw daily price panel shape:", prices.shape)
-print("First few rows of prices:\n", prices.head())
-
-if prices.empty:
-    raise SystemExit(
-        "ERROR: prices DataFrame is empty. "
-        "Check your data/universe files or date range."
+    prices = build_adj_close_panel(
+        tickers,
+        start=START_DATE,
+        end=END_DATE,
     )
+    print("Raw daily price panel shape:", prices.shape)
+    print("First few rows of prices:\n", prices.head())
 
-if FREQUENCY == "weekly":
-    # Use Friday close of each week (or last trading day of each week)
-    prices_used = prices.resample("W-FRI").last()
-    print("\nUsing WEEKLY closes (W-FRI resample).")
-else:
-    prices_used = prices
-    print("\nUsing DAILY closes.")
+    if prices.empty:
+        raise SystemExit(
+            "ERROR: prices DataFrame is empty. "
+            "Check your data/universe files or date range."
+        )
 
-print("Price panel USED shape:", prices_used.shape)
-print("First few rows of prices_used:\n", prices_used.head())
+    # Daily vs weekly
+    if FREQUENCY.lower() == "weekly":
+        # Use Friday close of each week (or last trading day of the week)
+        prices_used = prices.resample("W-FRI").last()
+        print("\nUsing WEEKLY closes (W-FRI resample).")
+    else:
+        prices_used = prices
+        print("\nUsing DAILY closes.")
 
-# 3. Build LSTM dataset (sliding windows of returns)
-print("\nBuilding LSTM dataset (sliding windows of returns)...")
-X, y, dates, ticker_arr = build_lstm_dataset(prices_used, window_size=WINDOW_SIZE)
-print(f"Total samples built: {X.shape[0]}")
-print("X shape:", X.shape, "y shape:", y.shape)
+    print("Price panel USED shape:", prices_used.shape)
+    print("First few rows of prices_used:\n", prices_used.head())
 
-
+    # 3. Build LSTM dataset (sliding windows of returns)
+    print("\nBuilding LSTM dataset (sliding windows of returns)...")
+    X, y, dates, ticker_arr = build_lstm_dataset(
+        prices_used, window_size=WINDOW_SIZE
+    )
     print(f"Total samples built: {X.shape[0]}")
     print("X shape:", X.shape, "y shape:", y.shape)
 
     # 4. Time-based train/test split by label date
     split_ts = pd.to_datetime(SPLIT_DATE)
-    # dates from prices are tz-aware; align split_ts to that if necessary
+    # dates from prices may be tz-aware; align split_ts to that if necessary
     if getattr(dates[0], "tzinfo", None) is not None and dates[0].tzinfo is not None:
         split_ts = split_ts.tz_localize(dates[0].tzinfo)
 
@@ -213,7 +234,7 @@ print("X shape:", X.shape, "y shape:", y.shape)
     train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True)
     test_loader = DataLoader(test_ds, batch_size=BATCH_SIZE, shuffle=False)
 
-    # Build model
+    # 6. Build model
     model = LSTMBinaryClassifier(
         input_size=1,
         hidden_size=HIDDEN_SIZE,
@@ -223,7 +244,7 @@ print("X shape:", X.shape, "y shape:", y.shape)
     criterion = nn.BCEWithLogitsLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
-    # Training loop
+    # 7. Training loop
     print("\nTraining LSTM...")
     for epoch in range(1, NUM_EPOCHS + 1):
         model.train()
@@ -243,7 +264,7 @@ print("X shape:", X.shape, "y shape:", y.shape)
         epoch_loss /= len(train_ds)
         print(f"Epoch {epoch:02d}/{NUM_EPOCHS} - train loss: {epoch_loss:.4f}")
 
-    # Evaluation on test set
+    # 8. Evaluation on test set
     print("\nEvaluating on test set...")
     model.eval()
     all_logits = []
@@ -289,11 +310,13 @@ print("X shape:", X.shape, "y shape:", y.shape)
         f.write(f"Universe file: {UNIVERSE_PATH}\n")
         f.write(f"Tickers used: {len(tickers)}\n")
         f.write(f"Date range: {START_DATE} to {END_DATE}\n")
+        f.write(f"Frequency: {FREQUENCY}\n")
         f.write(f"Train/test split: {SPLIT_DATE}\n")
         f.write(f"Window size: {WINDOW_SIZE}\n")
         f.write(f"Hidden size: {HIDDEN_SIZE}, Num layers: {NUM_LAYERS}\n")
         f.write(f"Num epochs: {NUM_EPOCHS}, LR: {LEARNING_RATE}\n")
-        f.write(f"Train samples: {X_train.shape[0]}, Test samples: {X_test.shape[0]}\n")
+        f.write(f"Train samples: {X_train.shape[0]}, "
+                f"Test samples: {X_test.shape[0]}\n")
         f.write(f"Test accuracy: {accuracy:.4f}\n")
 
     print(f"Saved LSTM summary to {summary_path}")
