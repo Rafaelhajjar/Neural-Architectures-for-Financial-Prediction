@@ -48,11 +48,11 @@ UNIVERSE_PATH = Path("data/universe/us_universe_full_filtered.csv")
 RESULTS_DIR = Path("results")
 
 START_DATE = "2014-01-01"
-END_DATE = "2020-12-31"
+END_DATE = "2021-12-31"
 SPLIT_DATE = "2018-01-01"
 
 MAX_TICKERS = 30        # limit tickers for speed
-WINDOW_SIZE = 20          # how many past periods the LSTM sees
+WINDOW_SIZE = 40          # how many past periods the LSTM sees
 BATCH_SIZE = 64
 NUM_EPOCHS = 20
 HIDDEN_SIZE = 32
