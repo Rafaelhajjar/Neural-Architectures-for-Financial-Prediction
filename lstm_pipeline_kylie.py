@@ -41,7 +41,7 @@ HIDDEN_SIZE = 32
 NUM_LAYERS = 1
 LEARNING_RATE = 1e-3
 SEED = 42
-FREQUENCY = "daily"
+FREQUENCY = "weekly"
 def set_seed(seed: int = 42) -> None:
     np.random.seed(seed)
     torch.manual_seed(seed)
