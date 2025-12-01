@@ -54,7 +54,7 @@ SPLIT_DATE = "2018-01-01"
 MAX_TICKERS = 30        # limit tickers for speed
 WINDOW_SIZE = 40          # how many past periods the LSTM sees
 BATCH_SIZE = 64
-NUM_EPOCHS = 15
+NUM_EPOCHS = 20
 HIDDEN_SIZE = 32
 NUM_LAYERS = 1
 LEARNING_RATE = 1e-3
@@ -111,7 +111,7 @@ def build_lstm_dataset(
 
     # adjust lookbacks a bit if weekly
     if frequency == "weekly":
-        mom_lookback = 26   # ~6-month momentum in weeks
+        mom_lookback = 10   # ~6-month momentum in weeks
         vol_window = 5     # 10 weeks
     else:
         mom_lookback = 126  # ~6-month momentum in days
