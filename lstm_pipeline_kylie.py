@@ -61,7 +61,7 @@ LEARNING_RATE = 1e-3
 SEED = 42
 
 # "daily" or "weekly"
-FREQUENCY = "daily"    
+FREQUENCY = "weekly"    
 
 
 def set_seed(seed: int = 42) -> None:
@@ -112,7 +112,7 @@ def build_lstm_dataset(
     # adjust lookbacks a bit if weekly
     if frequency == "weekly":
         mom_lookback = 26   # ~6-month momentum in weeks
-        vol_window = 10     # 10 weeks
+        vol_window = 5     # 10 weeks
     else:
         mom_lookback = 126  # ~6-month momentum in days
         vol_window = 20
