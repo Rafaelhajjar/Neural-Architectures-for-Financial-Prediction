@@ -51,7 +51,7 @@ START_DATE = "2014-01-01"
 END_DATE = "2020-12-31"
 SPLIT_DATE = "2018-01-01"
 
-MAX_TICKERS = 30          # limit tickers for speed
+MAX_TICKERS = 50        # limit tickers for speed
 WINDOW_SIZE = 20          # how many past periods the LSTM sees
 BATCH_SIZE = 64
 NUM_EPOCHS = 10
@@ -63,10 +63,6 @@ SEED = 42
 # "daily" or "weekly"
 FREQUENCY = "daily"    
 
-
-# -------------------------------------------------------------------
-# Utils
-# -------------------------------------------------------------------
 
 def set_seed(seed: int = 42) -> None:
     np.random.seed(seed)
