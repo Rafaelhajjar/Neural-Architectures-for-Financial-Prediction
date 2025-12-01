@@ -111,7 +111,6 @@ def build_lstm_dataset(
     mom_rank = rank_cross_sectional(mom)
     mom_z = zscore_cross_sectional(mom)
 
-    # NEW: MACD
     macd_line, macd_signal, macd_hist = compute_macd(prices)
 
     X_list: List[np.ndarray] = []
@@ -139,7 +138,6 @@ def build_lstm_dataset(
         if len(df_feat) <= window_size + 1:
             continue
 
-        # future label
         future_ret = rets_1[ticker].reindex(df_feat.index).shift(-1)
         df_feat["future_ret"] = future_ret
         df_feat = df_feat.dropna(subset=["future_ret"])
