@@ -61,7 +61,7 @@ LEARNING_RATE = 1e-3
 SEED = 42
 
 # "daily" or "weekly"
-FREQUENCY = "weekly"    
+FREQUENCY = "daily"    
 
 
 def set_seed(seed: int = 42) -> None:
