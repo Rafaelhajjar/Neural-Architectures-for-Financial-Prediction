@@ -1,0 +1,130 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ============================================================================
+# Project-Specific: Summary Markdowns (Auto-generated Documentation)
+# ============================================================================
+# These are extensive AI-generated summaries - not needed in repo
+
+ADVANCED_MODELS_SUMMARY.md
+BENCHMARK_COMPARISON_SUMMARY.md
+CLEANUP_COMPLETE.md
+CLEANUP_PLAN.md
+FINAL_RESULTS_SUMMARY.md
+FINBERT_INTEGRATION_ANALYSIS.md
+SENTIMENT_PIPELINE_SUMMARY.md
+GIT_PUSH_CHECKLIST.md
+
+# Neural nets folder summaries
+neural_nets/IMPLEMENTATION_COMPLETE.md
+neural_nets/NDCG_FIX_SUMMARY.md
+neural_nets/RESULTS_SUMMARY.md
+
+# ============================================================================
+# Project-Specific: Training Artifacts
+# ============================================================================
+
+# Training logs (large text files)
+neural_nets/training_log.txt
+neural_nets/advanced_training_log.txt
+neural_nets/ndcg_retrain_log.txt
+
+# Trained model checkpoints (large binary files - can be regenerated)
+neural_nets/trained_models/*.pt
+neural_nets/trained_models/*.pth
+# Keep the ensemble info JSON
+!neural_nets/trained_models/*.json
+
+# ============================================================================
+# Project-Specific: Keep These Files
+# ============================================================================
+# Important documentation that SHOULD be in git:
+# - README.md files (keep!)
+# - TODO.md (keep!)
+# - docs/ folder (keep!)
+# - requirements.txt (keep!)
+# - All source code (keep!)
+
+# ============================================================================
+# Data Files (Optional - depends on your needs)
+# ============================================================================
+
+# Uncomment these if you don't want to push data files:
+# data/curated/prices/adj/1d/*.parquet
+# data/processed/*.parquet
+# data/raw/news/*.csv
+
+# Results CSVs (keep these - they're small and show performance)
+# neural_nets/results/*.csv
+
+# Plots (keep these - good for presentation)
+# neural_nets/plots/*.png
+
+# ============================================================================
+# Notes
+# ============================================================================
+# This .gitignore excludes:
+#   - Python cache files
+#   - Environment files
+#   - OS files
+#   - AI-generated extensive markdown summaries
+#   - Training logs (large)
+#   - Trained model files (can regenerate)
+#
+# This .gitignore KEEPS:
+#   - All source code (.py files)
+#   - README.md files
+#   - TODO.md
+#   - Results CSVs
+#   - Plots (visualizations)
+#   - requirements.txt
+#   - Documentation in docs/
+
