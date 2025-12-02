@@ -660,6 +660,131 @@ def analyze_predictions(pred_csv_path: Path) -> None:
     print(f"[Analysis] Saved accuracy_by_year_ticker to {acc_by_year_ticker_path}")
     print("[Analysis] Done.")
 
+def analyze_sharpe(pred_csv_path: Path) -> None:
+    """
+    Take a predictions CSV (with date, ticker, y_pred) and compute:
+      - overall strategy Sharpe (long/flat based on y_pred)
+      - Sharpe by year
+      - Sharpe by ticker
+
+    Strategy:
+      position_t = 1 if y_pred_t == 1 else 0   (long/flat)
+      strategy_ret_t = position_t * future_ret_t
+
+    where future_ret_t is the return from t -> t+1, matching how labels were defined.
+    """
+
+    print(f"\n[Sharpe] Loading predictions from {pred_csv_path}")
+    df_pred = pd.read_csv(pred_csv_path)
+
+    required_cols = {"date", "ticker", "y_pred"}
+    missing = required_cols - set(df_pred.columns)
+    if missing:
+        raise SystemExit(f"ERROR: predictions file missing columns: {missing}")
+
+    # Parse dates
+    df_pred["date"] = pd.to_datetime(df_pred["date"])
+
+    # ------------------------------------------------------------------
+    # Rebuild the same price panel and FUTURE returns used for labels
+    # ------------------------------------------------------------------
+    tickers = df_pred["ticker"].dropna().unique().tolist()
+
+    prices = build_adj_close_panel(
+        tickers, start=START_DATE, end=END_DATE
+    )
+    if prices.empty:
+        raise SystemExit("ERROR: prices empty when rebuilding for Sharpe analysis")
+
+    freq = FREQUENCY.lower()
+    if freq == "weekly":
+        prices_used = prices.resample("W-FRI").last()
+        annual_factor = 52
+    else:
+        prices_used = prices
+        annual_factor = 252
+
+    # 1-period returns (t-1 -> t)
+    rets_1 = compute_returns(prices_used, periods=1)
+
+    # FUTURE returns (t -> t+1), matching how labels were created in build_lstm_dataset
+    future_rets = rets_1.shift(-1)
+
+    # Long form: date, ticker, future_ret
+    df_ret = (
+        future_rets
+        .stack()
+        .reset_index()
+    )
+    df_ret.columns = ["date", "ticker", "future_ret"]
+
+    # Merge predictions with realized FUTURE returns on (date, ticker)
+    df = pd.merge(df_pred, df_ret, on=["date", "ticker"], how="inner")
+    df = df.dropna(subset=["future_ret"])
+
+    if df.empty:
+        raise SystemExit("ERROR: no overlap between predictions and future returns for Sharpe analysis")
+
+    # ------------------------------------------------------------------
+    # Build strategy returns: long when y_pred==1, flat otherwise
+    # ------------------------------------------------------------------
+    df["position"] = (df["y_pred"] == 1).astype(float)
+    df["strategy_ret"] = df["position"] * df["future_ret"]
+
+    mean_ret = df["strategy_ret"].mean()
+    vol_ret = df["strategy_ret"].std()
+
+    if vol_ret > 0:
+        sharpe = np.sqrt(annual_factor) * mean_ret / vol_ret
+    else:
+        sharpe = np.nan
+
+    print(f"[Sharpe] Overall annualized Sharpe (long/flat): {sharpe:.4f}")
+
+    # ------------------------------------------------------------------
+    # Sharpe by year
+    # ------------------------------------------------------------------
+    df["year"] = df["date"].dt.year
+
+    def _sharpe(group: pd.DataFrame) -> float:
+        m = group["strategy_ret"].mean()
+        s = group["strategy_ret"].std()
+        return np.sqrt(annual_factor) * m / s if s > 0 else np.nan
+
+    sharpe_by_year = (
+        df.groupby("year")
+        .apply(_sharpe)
+        .reset_index(name="sharpe")
+    )
+    print("\n[Sharpe] Sharpe by year:")
+    print(sharpe_by_year)
+
+    # ------------------------------------------------------------------
+    # Sharpe by ticker
+    # ------------------------------------------------------------------
+    sharpe_by_ticker = (
+        df.groupby("ticker")
+        .apply(_sharpe)
+        .reset_index(name="sharpe")
+    )
+
+    print("\n[Sharpe] Best tickers by Sharpe (top 10):")
+    print(sharpe_by_ticker.sort_values("sharpe", ascending=False).head(10))
+
+    print("\n[Sharpe] Worst tickers by Sharpe (bottom 10):")
+    print(sharpe_by_ticker.sort_values("sharpe", ascending=True).head(10))
+
+    # Save to CSVs
+    RESULTS_DIR.mkdir(exist_ok=True)
+    sharpe_year_path = RESULTS_DIR / "sharpe_by_year.csv"
+    sharpe_ticker_path = RESULTS_DIR / "sharpe_by_ticker.csv"
+
+    sharpe_by_year.to_csv(sharpe_year_path, index=False)
+    sharpe_by_ticker.to_csv(sharpe_ticker_path, index=False)
+
+    print(f"\n[Sharpe] Saved sharpe_by_year to {sharpe_year_path}")
+    print(f"[Sharpe] Saved sharpe_by_ticker to {sharpe_ticker_path}")
+    print("[Sharpe] Done.")
 
 # ----------------------------------------------------------------------
 # ENTRY POINT
@@ -673,3 +798,5 @@ if __name__ == "__main__":
 
     # Analyze walk-forward predictions (change path if you want single-split instead)
     analyze_predictions(RESULTS_DIR / "lstm_predictions_walkforward.csv")
+
+    analyze_sharpe(RESULTS_DIR / "lstm_predictions_walkforward.csv")
