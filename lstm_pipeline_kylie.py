@@ -341,7 +341,331 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+   main()
+   run_walkforward()
+   analyze_predictions(RESULTS_DIR / "lstm_predictions_single_split.csv")
+
+
+def run_walkforward():
+    """
+    Run a walk-forward (rolling) backtest on the same data as main(),
+    but using multiple time windows instead of a single split.
+    """
+    set_seed(SEED)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    print("=" * 80)
+    print("LSTM pipeline (Kylie) - WALK-FORWARD")
+    print("=" * 80)
+
+    # ------------ 1) Load universe + prices (same as in main) ------------
+    universe = pd.read_csv(UNIVERSE_PATH)
+    all_tickers = universe["ticker"].dropna().unique().tolist()
+    tickers = all_tickers[:MAX_TICKERS]
+
+    print(f"Using {len(tickers)} tickers:", tickers[:10])
+
+    prices = build_adj_close_panel(
+        tickers, start=START_DATE, end=END_DATE
+    )
+    if prices.empty:
+        raise SystemExit("ERROR: prices empty")
+
+    freq = FREQUENCY.lower()
+    if freq == "weekly":
+        prices_used = prices.resample("W-FRI").last()
+        print("\nUsing WEEKLY closes.")
+    else:
+        prices_used = prices
+        print("\nUsing DAILY closes.")
+
+    print("\nBuilding LSTM dataset (for walk-forward)...")
+    X, y, dates, ticker_arr = build_lstm_dataset(
+        prices_used,
+        window_size=WINDOW_SIZE,
+        frequency=freq,
+    )
+
+    num_features = X.shape[2]
+
+    # ------------ 2) Define year boundaries for windows ------------
+    # We will train < 2017-01-01, test 2017; train < 2018-01-01, test 2018; etc.
+    split_points = pd.to_datetime(
+        [
+            "2017-01-01",
+            "2018-01-01",
+            "2019-01-01",
+            "2020-01-01",
+            "2021-01-01",
+            "2022-01-01",  # one past END_DATE
+        ]
+    )
+
+    # Match timezone if needed
+    if getattr(dates[0], "tzinfo", None):
+        tz = dates[0].tzinfo
+        split_points = [sp.tz_localize(tz) for sp in split_points]
+    else:
+        split_points = list(split_points)
+
+    # Containers to collect all test predictions from all windows
+    all_probs_list = []
+    all_true_list = []
+    all_pred_list = []
+    all_dates_list = []
+    all_tickers_list = []
+    window_accuracies = []
+
+    print("\nStarting WALK-FORWARD evaluation...\n")
+
+    # ------------ 3) Loop over windows ------------
+    for i in range(len(split_points) - 1):
+        train_end = split_points[i]
+        test_start = train_end
+        test_end = split_points[i + 1]
+
+        # Masks for this window
+        train_mask = dates < train_end
+        test_mask = (dates >= test_start) & (dates < test_end)
+
+        if not train_mask.any() or not test_mask.any():
+            print(
+                f"Skipping window {i+1}: "
+                f"train_end={train_end.date()}, "
+                f"test_start={test_start.date()}, "
+                f"test_end={test_end.date()} (no data)"
+            )
+            continue
+
+        X_train, y_train = X[train_mask], y[train_mask]
+        X_test, y_test = X[test_mask], y[test_mask]
+        dates_test = dates[test_mask]
+        tickers_test = ticker_arr[test_mask]
+
+        print("=" * 80)
+        print(
+            f"[Window {i+1}] "
+            f"train < {train_end.date()}, "
+            f"test {test_start.date()}–{(test_end - pd.Timedelta(days=1)).date()}"
+        )
+        print(
+            f"  Train samples: {len(X_train)}, "
+            f"Test samples: {len(X_test)}"
+        )
+
+        # Build loaders
+        train_ds = TensorDataset(torch.from_numpy(X_train), torch.from_numpy(y_train))
+        test_ds = TensorDataset(torch.from_numpy(X_test), torch.from_numpy(y_test))
+
+        train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True)
+        test_loader = DataLoader(test_ds, batch_size=BATCH_SIZE, shuffle=False)
+
+        # ------------ 4) New model for this window ------------
+        model = LSTMBinaryClassifier(
+            input_size=num_features,
+            hidden_size=HIDDEN_SIZE,
+            num_layers=NUM_LAYERS,
+        ).to(device)
+
+        criterion = nn.BCEWithLogitsLoss()
+        optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
+
+        print("\n  Training...")
+        for epoch in range(1, NUM_EPOCHS + 1):
+            model.train()
+            total_loss = 0.0
+
+            for xb, yb in train_loader:
+                xb = xb.float().to(device)
+                yb = yb.float().view(-1, 1).to(device)
+
+                optimizer.zero_grad()
+                logits = model(xb)
+                loss = criterion(logits, yb)
+                loss.backward()
+                optimizer.step()
+
+                total_loss += loss.item() * xb.size(0)
+
+            epoch_loss = total_loss / len(train_ds)
+            print(f"    Epoch {epoch:02d}/{NUM_EPOCHS} - loss: {epoch_loss:.4f}")
+
+        # ------------ 5) Evaluate on this window ------------
+        print("  Evaluating...")
+        model.eval()
+        fold_logits = []
+        fold_labels = []
+
+        with torch.no_grad():
+            for xb, yb in test_loader:
+                logits = model(xb.float().to(device))
+                fold_logits.append(logits.cpu().numpy())
+                fold_labels.append(yb.numpy())
+
+        fold_logits = np.vstack(fold_logits).reshape(-1)
+        fold_labels = np.concatenate(fold_labels)
+
+        fold_probs = 1 / (1 + np.exp(-fold_logits))
+        fold_preds = (fold_probs >= 0.5).astype(int)
+        fold_acc = (fold_preds == fold_labels).mean()
+
+        print(f"  Window {i+1} accuracy: {fold_acc:.4f}\n")
+
+        window_accuracies.append(
+            (
+                i + 1,
+                train_end.date(),
+                test_start.date(),
+                (test_end - pd.Timedelta(days=1)).date(),
+                float(fold_acc),
+            )
+        )
+
+        # Save results for this window into global lists
+        all_probs_list.append(fold_probs)
+        all_true_list.append(fold_labels)
+        all_pred_list.append(fold_preds)
+        all_dates_list.append(dates_test)
+        all_tickers_list.append(tickers_test)
+
+    # ------------ 6) Combine results from all windows ------------
+    if not all_probs_list:
+        raise SystemExit("ERROR: No walk-forward windows produced predictions.")
+
+    probs = np.concatenate(all_probs_list)
+    all_labels = np.concatenate(all_true_list)
+    preds = np.concatenate(all_pred_list)
+    dates_all = np.concatenate(all_dates_list)
+    tickers_all = np.concatenate(all_tickers_list)
+
+    overall_accuracy = (preds == all_labels).mean()
+    print("=" * 80)
+    print(f"\n[Walk-forward] Overall test accuracy: {overall_accuracy:.4f}")
+   df["year"] = pd.to_datetime(df["date"]).dt.year
+   acc_by_year = df.groupby("year").apply(
+    lambda g: (g["y_true"] == g["y_pred"]).mean()
+)
+acc_by_ticker = df.groupby("ticker").apply(
+    lambda g: (g["y_true"] == g["y_pred"]).mean()
+)
+best = acc_by_ticker.sort_values(ascending=False).head(10)
+worst = acc_by_ticker.sort_values().head(10)
+acc_by_year_ticker = (
+    df
+    .groupby(["year", "ticker"])
+    .apply(lambda g: (g["y_true"] == g["y_pred"]).mean())
+    .reset_index(name="accuracy")
+)
+pivot = acc_by_year_ticker.pivot(index="ticker", columns="year", values="accuracy")
+def analyze_predictions(pred_csv_path: Path):
+    """
+    Load a predictions CSV and compute:
+      - overall accuracy
+      - accuracy by year
+      - accuracy by ticker
+      - accuracy by (year, ticker)
+    Save results to separate CSVs in RESULTS_DIR.
+    """
+
+    print(f"\n[Analysis] Loading predictions from {pred_csv_path}")
+    df = pd.read_csv(pred_csv_path)
+
+    # Make sure these columns exist
+    required_cols = {"date", "ticker", "y_true", "y_pred"}
+    missing = required_cols - set(df.columns)
+    if missing:
+        raise SystemExit(f"ERROR: predictions file missing columns: {missing}")
+
+    # Parse year from date
+    df["date"] = pd.to_datetime(df["date"])
+    df["year"] = df["date"].dt.year
+
+    # Overall accuracy
+    overall_acc = (df["y_true"] == df["y_pred"]).mean()
+    print(f"[Analysis] Overall accuracy (from file): {overall_acc:.4f}")
+
+    # Accuracy by year
+    acc_by_year = (
+        df.groupby("year")
+        .apply(lambda g: (g["y_true"] == g["y_pred"]).mean())
+        .reset_index(name="accuracy")
+    )
+    print("\n[Analysis] Accuracy by year:")
+    print(acc_by_year)
+
+    # Accuracy by ticker
+    acc_by_ticker = (
+        df.groupby("ticker")
+        .apply(lambda g: (g["y_true"] == g["y_pred"]).mean())
+        .reset_index(name="accuracy")
+    )
+
+    print("\n[Analysis] Best tickers (top 10):")
+    print(acc_by_ticker.sort_values("accuracy", ascending=False).head(10))
+
+    print("\n[Analysis] Worst tickers (bottom 10):")
+    print(acc_by_ticker.sort_values("accuracy", ascending=True).head(10))
+
+    # Accuracy by (year, ticker)
+    acc_by_year_ticker = (
+        df.groupby(["year", "ticker"])
+        .apply(lambda g: (g["y_true"] == g["y_pred"]).mean())
+        .reset_index(name="accuracy")
+    )
+
+    # Make sure results dir exists
+    RESULTS_DIR.mkdir(exist_ok=True)
+
+    # Save summaries
+    acc_by_year_path = RESULTS_DIR / "accuracy_by_year.csv"
+    acc_by_ticker_path = RESULTS_DIR / "accuracy_by_ticker.csv"
+    acc_by_year_ticker_path = RESULTS_DIR / "accuracy_by_year_ticker.csv"
+
+    acc_by_year.to_csv(acc_by_year_path, index=False)
+    acc_by_ticker.to_csv(acc_by_ticker_path, index=False)
+    acc_by_year_ticker.to_csv(acc_by_year_ticker_path, index=False)
+
+    print(f"\n[Analysis] Saved accuracy_by_year to {acc_by_year_path}")
+    print(f"[Analysis] Saved accuracy_by_ticker to {acc_by_ticker_path}")
+    print(f"[Analysis] Saved accuracy_by_year_ticker to {acc_by_year_ticker_path}")
+    print("[Analysis] Done.")
+
+
+
+    # Save predictions
+    RESULTS_DIR.mkdir(exist_ok=True)
+    out_path = RESULTS_DIR / "lstm_predictions_walkforward.csv"
+
+    pd.DataFrame(
+        {
+            "date": dates_all,
+            "ticker": tickers_all,
+            "y_true": all_labels,
+            "y_proba": probs,
+            "y_pred": preds,
+        }
+    ).to_csv(out_path, index=False)
+
+    print(f"[Walk-forward] Saved predictions to {out_path}")
+
+    # Save summary
+    summary_path = RESULTS_DIR / "lstm_summary_walkforward.txt"
+    with open(summary_path, "w") as f:
+        f.write("LSTM w/ MACD - Walk-forward Summary\n")
+        f.write(f"Frequency: {FREQUENCY}\n")
+        f.write(f"Overall walk-forward accuracy: {overall_accuracy:.4f}\n")
+        f.write(f"Window size: {WINDOW_SIZE}\n")
+        f.write(f"Tickers: {len(tickers)}\n")
+        f.write("\nPer-window accuracies:\n")
+        f.write("window_idx,train_end,test_start,test_end,accuracy\n")
+        for w_idx, train_end_d, test_start_d, test_end_d, acc in window_accuracies:
+            f.write(
+                f"{w_idx},{train_end_d},{test_start_d},{test_end_d},{acc:.4f}\n"
+            )
+
+    print(f"[Walk-forward] Saved walk-forward summary to {summary_path}")
+    print("Walk-forward done!")
+
 
 
 
