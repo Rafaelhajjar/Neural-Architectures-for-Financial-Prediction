@@ -141,22 +141,24 @@ print("\nXGBoost Classifier Metrics:")
 for k, v in clf_metrics.items():
     print(f"{k}: {v:.4f}")
 
-
 # ---------------------------------------------------------
 # Confusion Matrix
 # ---------------------------------------------------------
 
-cm = confusion_matrix(clf_test["y_true"], clf_test["y_pred"])
+y_true = clf_test["target"]
+y_pred = clf_test["pred_label"]
+
+cm = confusion_matrix(y_true, y_pred)
 tn, fp, fn, tp = cm.ravel()
 
 print("\nConfusion Matrix:")
 print(cm)
 
-accuracy = accuracy_score(clf_test["y_true"], clf_test["y_pred"])
-precision = precision_score(clf_test["y_true"], clf_test["y_pred"])
-recall_up = recall_score(clf_test["y_true"], clf_test["y_pred"])
+accuracy = accuracy_score(y_true, y_pred)
+precision = precision_score(y_true, y_pred)
+recall_up = recall_score(y_true, y_pred)
 recall_down = tn / (tn + fp)
-f1 = f1_score(clf_test["y_true"], clf_test["y_pred"])
+f1 = f1_score(y_true, y_pred)
 
 print("\nStats:")
 print(f"Accuracy = {accuracy:.4f}")
