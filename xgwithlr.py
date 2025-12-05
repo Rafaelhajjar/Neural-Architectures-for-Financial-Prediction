@@ -23,7 +23,7 @@ from src.data.panel import (
 
 from src.models.xgb_classifier import train_xgb_classifier
 from src.models.xgb_ranker import train_xgb_ranker
-from src.evaluation.analysis import get_feature_importance_gain, backtest_long_short
+from src.evaluation.analysis import backtest_long_short
 
 
 # ---------------------------------------------------------
