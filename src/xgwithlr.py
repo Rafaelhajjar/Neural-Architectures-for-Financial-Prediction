@@ -114,12 +114,6 @@ print("Final dataset shape:", df.shape)
 # Train XGBoost Classifier
 # ---------------------------------------------------------
 
-importance = clf_model.get_booster().get_score(importance_type="gain")
-importance_sorted = sorted(importance.items(), key=lambda x: x[1], reverse=True)
-
-print("Feature importance (gain):")
-for feature, imp in importance_sorted:
-    print(f"{feature}: {imp:.4f}")
     
 clf_model, clf_metrics, clf_test = train_xgb_classifier(
     df,
@@ -129,6 +123,12 @@ clf_model, clf_metrics, clf_test = train_xgb_classifier(
     split_date="2018-01-01",
 )
 
+importance = clf_model.get_booster().get_score(importance_type="gain")
+importance_sorted = sorted(importance.items(), key=lambda x: x[1], reverse=True)
+
+print("Feature importance (gain):")
+for feature, imp in importance_sorted:
+    print(f"{feature}: {imp:.4f}")
 print("\nXGBoost Classifier Metrics:")
 for k, v in clf_metrics.items():
     print(f"{k}: {v:.4f}")
