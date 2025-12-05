@@ -787,6 +787,184 @@ def analyze_sharpe(pred_csv_path: Path) -> None:
     print("[Sharpe] Done.")
 
 # ----------------------------------------------------------------------
+# WEEKLY EXPANDING-WINDOW WALK-FORWARD (true rolling evaluation)
+# ----------------------------------------------------------------------
+def run_walkforward_weekly() -> None:
+    """
+    True weekly expanding-window walk-forward evaluation:
+      Train on all samples < week N
+      Test on samples in week N only
+      Move forward 1 week
+    """
+    set_seed(SEED)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    print("=" * 80)
+    print("LSTM pipeline (Kylie) - WEEKLY WALK-FORWARD")
+    print("=" * 80)
+
+    # --- 1) Load universe + price panel ---
+    universe = pd.read_csv(UNIVERSE_PATH)
+    all_tickers = universe["ticker"].dropna().unique().tolist()
+    tickers = all_tickers[:MAX_TICKERS]
+
+    print(f"Using {len(tickers)} tickers:", tickers[:10])
+
+    prices = build_adj_close_panel(
+        tickers, start=START_DATE, end=END_DATE
+    )
+    if prices.empty:
+        raise SystemExit("ERROR: prices empty")
+
+    # daily / weekly frequency
+    freq = FREQUENCY.lower()
+    if freq == "weekly":
+        prices_used = prices.resample("W-FRI").last()
+        print("\nUsing WEEKLY closes.")
+    else:
+        prices_used = prices
+        print("\nUsing DAILY closes.")
+
+    # --- 2) Build dataset ---
+    print("\nBuilding LSTM dataset (for weekly)...")
+    X, y, dates, ticker_arr = build_lstm_dataset(
+        prices_used,
+        window_size=WINDOW_SIZE,
+        frequency=freq,
+    )
+    num_features = X.shape[2]
+
+    # Sort unique dates
+    unique_dates = np.sort(np.unique(dates))
+
+    # START weekly walk-forward after WINDOW_SIZE samples
+    # (to ensure the training set isn't empty)
+    start_idx = WINDOW_SIZE
+    end_idx = len(unique_dates) - 1
+
+    # Containers for combined results
+    all_probs_list = []
+    all_true_list = []
+    all_pred_list = []
+    all_dates_list = []
+    all_tickers_list = []
+
+    print("\nStarting WEEKLY expanding-window walk-forward...\n")
+
+    # --- 3) Weekly loop ---
+    for i in range(start_idx, end_idx):
+        train_end = unique_dates[i]                 # train up to this week
+        test_start = unique_dates[i]                # test this exact week
+        test_end = unique_dates[i + 1]              # next week
+
+        train_mask = dates < train_end
+        test_mask = (dates >= test_start) & (dates < test_end)
+
+        if not test_mask.any():
+            continue
+
+        X_train, y_train = X[train_mask], y[train_mask]
+        X_test, y_test = X[test_mask], y[test_mask]
+        dates_test = dates[test_mask]
+        tickers_test = ticker_arr[test_mask]
+
+        print("=" * 80)
+        print(
+            f"[Week {i}] Train < {train_end.date()}, "
+            f"Test = {test_start.date()}"
+        )
+        print(f"  Train samples: {len(X_train)}, Test samples: {len(X_test)}")
+
+        # Build loaders
+        train_ds = TensorDataset(torch.from_numpy(X_train), torch.from_numpy(y_train))
+        test_ds = TensorDataset(torch.from_numpy(X_test), torch.from_numpy(y_test))
+
+        train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True)
+        test_loader = DataLoader(test_ds, batch_size=BATCH_SIZE, shuffle=False)
+
+        # --- 4) New model each week ---
+        model = LSTMBinaryClassifier(
+            input_size=num_features,
+            hidden_size=HIDDEN_SIZE,
+            num_layers=NUM_LAYERS,
+        ).to(device)
+
+        criterion = nn.BCEWithLogitsLoss()
+        optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
+
+        # --- 5) Train ---
+        model.train()
+        for epoch in range(1, NUM_EPOCHS + 1):
+            total_loss = 0.0
+            for xb, yb in train_loader:
+                xb = xb.float().to(device)
+                yb = yb.float().view(-1, 1).to(device)
+
+                optimizer.zero_grad()
+                logits = model(xb)
+                loss = criterion(logits, yb)
+                loss.backward()
+                optimizer.step()
+
+                total_loss += loss.item() * xb.size(0)
+
+            print(f"    Epoch {epoch}/{NUM_EPOCHS} - loss: {total_loss/len(train_ds):.4f}")
+
+        # --- 6) Evaluate this week ---
+        model.eval()
+        week_logits = []
+        week_labels = []
+
+        with torch.no_grad():
+            for xb, yb in test_loader:
+                logits = model(xb.float().to(device))
+                week_logits.append(logits.cpu().numpy())
+                week_labels.append(yb.numpy())
+
+        week_logits = np.vstack(week_logits).reshape(-1)
+        week_labels = np.concatenate(week_labels)
+
+        week_probs = 1 / (1 + np.exp(-week_logits))
+        week_preds = (week_probs >= 0.5).astype(int)
+
+        week_acc = (week_preds == week_labels).mean()
+        print(f"  Week accuracy: {week_acc:.4f}\n")
+
+        # Save global results
+        all_probs_list.append(week_probs)
+        all_true_list.append(week_labels)
+        all_pred_list.append(week_preds)
+        all_dates_list.append(dates_test)
+        all_tickers_list.append(tickers_test)
+
+    # --- 7) Merge all results ---
+    probs = np.concatenate(all_probs_list)
+    labels = np.concatenate(all_true_list)
+    preds = np.concatenate(all_pred_list)
+    dates_all = np.concatenate(all_dates_list)
+    tickers_all = np.concatenate(all_tickers_list)
+
+    overall_accuracy = (preds == labels).mean()
+    print("=" * 80)
+    print(f"\n[Weekly Walk-forward] Overall accuracy: {overall_accuracy:.4f}")
+
+    # Save predictions
+    RESULTS_DIR.mkdir(exist_ok=True)
+    out_path = RESULTS_DIR / "lstm_predictions_walkforward_weekly.csv"
+
+    pd.DataFrame(
+        {
+            "date": dates_all,
+            "ticker": tickers_all,
+            "y_true": labels,
+            "y_proba": probs,
+            "y_pred": preds,
+        }
+    ).to_csv(out_path, index=False)
+
+    print(f"[Weekly Walk-forward] Saved predictions to {out_path}")
+
+# ----------------------------------------------------------------------
 # ENTRY POINT
 # ----------------------------------------------------------------------
 if __name__ == "__main__":
@@ -795,8 +973,14 @@ if __name__ == "__main__":
 
     # Run walk-forward evaluation
     run_walkforward()
+    run_walkforward_weekly()
+
 
     # Analyze walk-forward predictions (change path if you want single-split instead)
     analyze_predictions(RESULTS_DIR / "lstm_predictions_walkforward.csv")
 
     analyze_sharpe(RESULTS_DIR / "lstm_predictions_walkforward.csv")
+   
+    analyze_predictions(RESULTS_DIR / "lstm_predictions_walkforward_weekly.csv")
+    analyze_sharpe(RESULTS_DIR / "lstm_predictions_walkforward_weekly.csv")
+
