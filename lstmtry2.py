@@ -351,8 +351,6 @@ def main() -> None:
 
 
 # ----------------------------------------------------------------------
-# WALK-FORWARD EVALUATION
-# ----------------------------------------------------------------------
 def run_walkforward() -> None:
     """
     Run a walk-forward (rolling) backtest on the same data as main(),
@@ -396,7 +394,6 @@ def run_walkforward() -> None:
     num_features = X.shape[2]
 
     # ------------ 2) Define year boundaries for windows ------------
-    # We will train < 2017-01-01, test 2017; train < 2018-01-01, test 2018; etc.
     split_points = pd.to_datetime(
         [
             "2017-01-01",
@@ -404,24 +401,23 @@ def run_walkforward() -> None:
             "2019-01-01",
             "2020-01-01",
             "2021-01-01",
-            "2022-01-01",  # one past END_DATE
+            "2022-01-01",
         ]
     )
 
-    # Match timezone if needed
     if getattr(dates[0], "tzinfo", None):
         tz = dates[0].tzinfo
         split_points = [sp.tz_localize(tz) for sp in split_points]
     else:
         split_points = list(split_points)
 
-    # Containers to collect all test predictions from all windows
-    all_probs_list: List[np.ndarray] = []
-    all_true_list: List[np.ndarray] = []
-    all_pred_list: List[np.ndarray] = []
-    all_dates_list: List[np.ndarray] = []
-    all_tickers_list: List[np.ndarray] = []
-    window_accuracies: List[tuple] = []
+    # Containers to collect combined results
+    all_probs_list = []
+    all_true_list = []
+    all_pred_list = []
+    all_dates_list = []
+    all_tickers_list = []
+    window_accuracies = []
 
     print("\nStarting WALK-FORWARD evaluation...\n")
 
@@ -431,21 +427,16 @@ def run_walkforward() -> None:
         test_start = train_end
         test_end = split_points[i + 1]
 
-        # Masks for this window
         train_mask = dates < train_end
         test_mask = (dates >= test_start) & (dates < test_end)
 
         if not train_mask.any() or not test_mask.any():
-            print(
-                f"Skipping window {i+1}: "
-                f"train_end={train_end.date()}, "
-                f"test_start={test_start.date()}, "
-                f"test_end={test_end.date()} (no data)"
-            )
+            print(f"Skipping window {i+1}: no data")
             continue
 
         X_train, y_train = X[train_mask], y[train_mask]
         X_test, y_test = X[test_mask], y[test_mask]
+
         dates_test = dates[test_mask]
         tickers_test = ticker_arr[test_mask]
 
@@ -455,10 +446,7 @@ def run_walkforward() -> None:
             f"train < {train_end.date()}, "
             f"test {test_start.date()}–{(test_end - pd.Timedelta(days=1)).date()}"
         )
-        print(
-            f"  Train samples: {len(X_train)}, "
-            f"Test samples: {len(X_test)}"
-        )
+        print(f"  Train samples: {len(X_train)}, Test samples: {len(X_test)}")
 
         # Build loaders
         train_ds = TensorDataset(torch.from_numpy(X_train), torch.from_numpy(y_train))
@@ -494,74 +482,55 @@ def run_walkforward() -> None:
 
                 total_loss += loss.item() * xb.size(0)
 
-            epoch_loss = total_loss / len(train_ds)
-            print(f"    Epoch {epoch:02d}/{NUM_EPOCHS} - loss: {epoch_loss:.4f}")
+            print(f"    Epoch {epoch:02d}/{NUM_EPOCHS} - loss: {total_loss / len(train_ds):.4f}")
 
-        # ------------ 5) Evaluate on this window ------------
-      all_logits_list = []
-      print("  Evaluating...")
-      model.eval()
-      
-      # Storage for perfectly aligned rows
-      window_dates = []
-      window_tickers = []
-      window_true = []
-      window_logits = []
-      window_probs = []
-      window_preds = []
-      
-      # Find the exact test indices (same order as original arrays)
-      test_idx = np.where(test_mask)[0]
-      
-      with torch.no_grad():
-          for idx in test_idx:
-              # Extract one sample in correct index order
-              x_single = torch.from_numpy(X[idx]).unsqueeze(0).float().to(device)
-      
-              logit = model(x_single).item()
-              prob = 1 / (1 + np.exp(-logit))
-              pred = 1 if prob >= 0.5 else 0
-      
-              window_dates.append(dates[idx])
-              window_tickers.append(ticker_arr[idx])
-              window_true.append(int(y[idx]))
-              window_logits.append(float(logit))
-              window_probs.append(float(prob))
-              window_preds.append(int(pred))
-      
-      # Compute accuracy
-      fold_acc = (np.array(window_preds) == np.array(window_true)).mean()
-      print(f"  Window {i+1} accuracy: {fold_acc:.4f}\n")
-      
-      # Save results to global collectors
-      all_dates_list.append(np.array(window_dates))
-      all_tickers_list.append(np.array(window_tickers)))
-      all_true_list.append(np.array(window_true))
-      all_pred_list.append(np.array(window_preds))
-      all_probs_list.append(np.array(window_probs))
-      all_logits_list.append(np.array(window_logits))
-      
+        # ------------ 5) Evaluate this window ------------
+        print("  Evaluating...")
+        model.eval()
+        window_logits = []
+        window_labels = []
+        window_probs = []
+        window_preds = []
 
-     print(f"  Window {i+1} accuracy: {fold_acc:.4f}\n")
+        with torch.no_grad():
+            for xb, yb in test_loader:
+                logits = model(xb.float().to(device))
+                probs = 1 / (1 + np.exp(-logits.cpu().numpy().reshape(-1)))
+                preds = (probs >= 0.5).astype(int)
 
-     window_accuracies.append(
-         (
-             i + 1,
-             train_end.date(),
-             test_start.date(),
-             (test_end - pd.Timedelta(days=1)).date(),
-             float(fold_acc),
-         )
-     )
+                window_logits.append(logits.cpu().numpy().reshape(-1))
+                window_labels.append(yb.numpy().reshape(-1))
+                window_probs.append(probs)
+                window_preds.append(preds)
 
-     # Save results for this window into global lists
-     all_probs_list.append(fold_probs)
-     all_true_list.append(fold_labels_arr)
-     all_pred_list.append(fold_preds)
-     all_dates_list.append(dates_test)
-     all_tickers_list.append(tickers_test)
+        # flatten
+        window_logits = np.concatenate(window_logits)
+        window_labels = np.concatenate(window_labels)
+        window_probs = np.concatenate(window_probs)
+        window_preds = np.concatenate(window_preds)
 
-    # ------------ 6) Combine results from all windows ------------
+        # accuracy
+        fold_acc = (window_preds == window_labels).mean()
+        print(f"  Window {i+1} accuracy: {fold_acc:.4f}\n")
+
+        # Save
+        all_probs_list.append(window_probs)
+        all_true_list.append(window_labels)
+        all_pred_list.append(window_preds)
+        all_dates_list.append(dates_test)
+        all_tickers_list.append(tickers_test)
+
+        window_accuracies.append(
+            (
+                i + 1,
+                train_end.date(),
+                test_start.date(),
+                (test_end - pd.Timedelta(days=1)).date(),
+                float(fold_acc),
+            )
+        )
+
+    # ------------ 6) Combine results ------------
     if not all_probs_list:
         raise SystemExit("ERROR: No walk-forward windows produced predictions.")
 
@@ -572,6 +541,7 @@ def run_walkforward() -> None:
     tickers_all = np.concatenate(all_tickers_list)
 
     overall_accuracy = (preds == all_labels).mean()
+
     print("=" * 80)
     print(f"\n[Walk-forward] Overall test accuracy: {overall_accuracy:.4f}")
 
@@ -590,25 +560,6 @@ def run_walkforward() -> None:
     ).to_csv(out_path, index=False)
 
     print(f"[Walk-forward] Saved predictions to {out_path}")
-
-    # Save summary
-    summary_path = RESULTS_DIR / "lstm_summary_walkforward.txt"
-    with open(summary_path, "w") as f:
-        f.write("LSTM w/ MACD - Walk-forward Summary\n")
-        f.write(f"Frequency: {FREQUENCY}\n")
-        f.write(f"Overall walk-forward accuracy: {overall_accuracy:.4f}\n")
-        f.write(f"Window size: {WINDOW_SIZE}\n")
-        f.write(f"Tickers: {len(tickers)}\n")
-        f.write("\nPer-window accuracies:\n")
-        f.write("window_idx,train_end,test_start,test_end,accuracy\n")
-        for w_idx, train_end_d, test_start_d, test_end_d, acc in window_accuracies:
-            f.write(
-                f"{w_idx},{train_end_d},{test_start_d},{test_end_d},{acc:.4f}\n"
-            )
-
-    print(f"[Walk-forward] Saved walk-forward summary to {summary_path}")
-    print("Walk-forward run done!")
-
 
 # ----------------------------------------------------------------------
 # ANALYSIS: per-year / per-ticker performance
