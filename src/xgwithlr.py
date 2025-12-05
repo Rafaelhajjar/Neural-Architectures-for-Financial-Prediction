@@ -1,4 +1,3 @@
-
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -83,6 +82,7 @@ y_reg.name = "future_return"
 df = dataset.join([y_class, y_reg]).reset_index()
 df["date"] = pd.to_datetime(df["date"]).dt.tz_localize(None)
 
+
 # ---------------------------------------------------------
 # Add Linear Regression Prediction (Stacking Feature)
 # ---------------------------------------------------------
@@ -91,13 +91,16 @@ feature_cols = ["ret_1d", "momentum_126d", "vol_20d", "mom_rank"]
 
 print("\nTraining Linear Regression on base features...")
 
-# Drop NaN future returns (required for sklearn)
 df_lr = df.dropna(subset=["future_return"])
 
 lr = LinearRegression()
 lr.fit(df_lr[feature_cols], df_lr["future_return"])
 
 print("Done training LR.")
+
+# add LR prediction feature
+df["lr_pred"] = lr.predict(df[feature_cols])
+feature_cols.append("lr_pred")
 
 print("New feature set:", feature_cols)
 
@@ -114,7 +117,6 @@ print("Final dataset shape:", df.shape)
 # Train XGBoost Classifier
 # ---------------------------------------------------------
 
-    
 clf_model, clf_metrics, clf_test = train_xgb_classifier(
     df,
     feature_cols=feature_cols,
@@ -123,24 +125,21 @@ clf_model, clf_metrics, clf_test = train_xgb_classifier(
     split_date="2018-01-01",
 )
 
+# classifier feature importance
 importance = clf_model.get_booster().get_score(importance_type="gain")
 importance_sorted = sorted(importance.items(), key=lambda x: x[1], reverse=True)
 
-print("Feature importance (gain):")
-for feature, imp in importance_sorted:
-    print(f"{feature}: {imp:.4f}")
+fi_clf = (
+    pd.DataFrame(importance_sorted, columns=["feature", "gain"])
+    .set_index("feature")
+)
+
+print("\nFeature importance (gain):")
+print(fi_clf)
+
 print("\nXGBoost Classifier Metrics:")
 for k, v in clf_metrics.items():
     print(f"{k}: {v:.4f}")
-importance_df = (
-    pd.DataFrame.from_dict(importance_dict, orient="index", columns=["gain"])
-    .rename_axis("feature")
-    .sort_values("gain", ascending=False)
-)
-
-print("\nFeature Importance (Gain):")
-print(importance_df)
-
 
 
 # ---------------------------------------------------------
@@ -178,7 +177,8 @@ rank_model, rank_test = train_xgb_ranker(
     date_col="date",
     split_date="2018-01-01",
 )
-# --- Ranker Feature Importance (using XGBoost Booster API) ---
+
+# --- Ranker feature importance ---
 booster = rank_model.get_booster()
 score_dict = booster.get_score(importance_type="gain")
 
@@ -193,7 +193,6 @@ fi_rank = (
 
 print("\nRanker Feature Importance:")
 print(fi_rank)
-
 
 
 # ---------------------------------------------------------
