@@ -114,8 +114,13 @@ print("Final dataset shape:", df.shape)
 # Train XGBoost Classifier
 # ---------------------------------------------------------
 
-importance = model.get_booster().get_score(importance_type="gain")
+importance = clf_model.get_booster().get_score(importance_type="gain")
+importance_sorted = sorted(importance.items(), key=lambda x: x[1], reverse=True)
 
+print("Feature importance (gain):")
+for feature, imp in importance_sorted:
+    print(f"{feature}: {imp:.4f}")
+    
 clf_model, clf_metrics, clf_test = train_xgb_classifier(
     df,
     feature_cols=feature_cols,
