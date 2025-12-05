@@ -498,23 +498,49 @@ def run_walkforward() -> None:
             print(f"    Epoch {epoch:02d}/{NUM_EPOCHS} - loss: {epoch_loss:.4f}")
 
         # ------------ 5) Evaluate on this window ------------
-        print("  Evaluating...")
-        model.eval()
-        fold_logits: List[np.ndarray] = []
-        fold_labels: List[np.ndarray] = []
-
-        with torch.no_grad():
-            for xb, yb in test_loader:
-                logits = model(xb.float().to(device))
-                fold_logits.append(logits.cpu().numpy())
-                fold_labels.append(yb.numpy())
-
-        fold_logits_arr = np.vstack(fold_logits).reshape(-1)
-        fold_labels_arr = np.concatenate(fold_labels)
-
-        fold_probs = 1 / (1 + np.exp(-fold_logits_arr))
-        fold_preds = (fold_probs >= 0.5).astype(int)
-        fold_acc = (fold_preds == fold_labels_arr).mean()
+         all_logits_list = []
+         print("  Evaluating...")
+         model.eval()
+         
+         # Storage for perfectly aligned rows
+         window_dates = []
+         window_tickers = []
+         window_true = []
+         window_logits = []
+         window_probs = []
+         window_preds = []
+         
+         # Find the exact test indices (same order as original arrays)
+         test_idx = np.where(test_mask)[0]
+         
+         with torch.no_grad():
+             for idx in test_idx:
+                 # Extract one sample in correct index order
+                 x_single = torch.from_numpy(X[idx]).unsqueeze(0).float().to(device)
+         
+                 logit = model(x_single).item()
+                 prob = 1 / (1 + np.exp(-logit))
+                 pred = 1 if prob >= 0.5 else 0
+         
+                 window_dates.append(dates[idx])
+                 window_tickers.append(ticker_arr[idx])
+                 window_true.append(int(y[idx]))
+                 window_logits.append(float(logit))
+                 window_probs.append(float(prob))
+                 window_preds.append(int(pred))
+         
+         # Compute accuracy
+         fold_acc = (np.array(window_preds) == np.array(window_true)).mean()
+         print(f"  Window {i+1} accuracy: {fold_acc:.4f}\n")
+         
+         # Save results to global collectors
+         all_dates_list.append(np.array(window_dates))
+         all_tickers_list.append(np.array(window_tickers)))
+         all_true_list.append(np.array(window_true))
+         all_pred_list.append(np.array(window_preds))
+         all_probs_list.append(np.array(window_probs))
+         all_logits_list.append(np.array(window_logits))
+         
 
         print(f"  Window {i+1} accuracy: {fold_acc:.4f}\n")
 
