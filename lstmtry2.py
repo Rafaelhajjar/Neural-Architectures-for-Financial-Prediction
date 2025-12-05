@@ -302,7 +302,7 @@ def main() -> None:
         print(f"Epoch {epoch:02d}/{NUM_EPOCHS} - loss: {epoch_loss:.4f}")
 
     # Evaluation
-    print("\nEvaluating (single-split)...")
+    print("\nEv aluating (single-split)...")
     model.eval()
     all_logits = []
     all_labels = []
@@ -498,68 +498,68 @@ def run_walkforward() -> None:
             print(f"    Epoch {epoch:02d}/{NUM_EPOCHS} - loss: {epoch_loss:.4f}")
 
         # ------------ 5) Evaluate on this window ------------
-         all_logits_list = []
-         print("  Evaluating...")
-         model.eval()
-         
-         # Storage for perfectly aligned rows
-         window_dates = []
-         window_tickers = []
-         window_true = []
-         window_logits = []
-         window_probs = []
-         window_preds = []
-         
-         # Find the exact test indices (same order as original arrays)
-         test_idx = np.where(test_mask)[0]
-         
-         with torch.no_grad():
-             for idx in test_idx:
-                 # Extract one sample in correct index order
-                 x_single = torch.from_numpy(X[idx]).unsqueeze(0).float().to(device)
-         
-                 logit = model(x_single).item()
-                 prob = 1 / (1 + np.exp(-logit))
-                 pred = 1 if prob >= 0.5 else 0
-         
-                 window_dates.append(dates[idx])
-                 window_tickers.append(ticker_arr[idx])
-                 window_true.append(int(y[idx]))
-                 window_logits.append(float(logit))
-                 window_probs.append(float(prob))
-                 window_preds.append(int(pred))
-         
-         # Compute accuracy
-         fold_acc = (np.array(window_preds) == np.array(window_true)).mean()
-         print(f"  Window {i+1} accuracy: {fold_acc:.4f}\n")
-         
-         # Save results to global collectors
-         all_dates_list.append(np.array(window_dates))
-         all_tickers_list.append(np.array(window_tickers)))
-         all_true_list.append(np.array(window_true))
-         all_pred_list.append(np.array(window_preds))
-         all_probs_list.append(np.array(window_probs))
-         all_logits_list.append(np.array(window_logits))
-         
+      all_logits_list = []
+      print("  Evaluating...")
+      model.eval()
+      
+      # Storage for perfectly aligned rows
+      window_dates = []
+      window_tickers = []
+      window_true = []
+      window_logits = []
+      window_probs = []
+      window_preds = []
+      
+      # Find the exact test indices (same order as original arrays)
+      test_idx = np.where(test_mask)[0]
+      
+      with torch.no_grad():
+          for idx in test_idx:
+              # Extract one sample in correct index order
+              x_single = torch.from_numpy(X[idx]).unsqueeze(0).float().to(device)
+      
+              logit = model(x_single).item()
+              prob = 1 / (1 + np.exp(-logit))
+              pred = 1 if prob >= 0.5 else 0
+      
+              window_dates.append(dates[idx])
+              window_tickers.append(ticker_arr[idx])
+              window_true.append(int(y[idx]))
+              window_logits.append(float(logit))
+              window_probs.append(float(prob))
+              window_preds.append(int(pred))
+      
+      # Compute accuracy
+      fold_acc = (np.array(window_preds) == np.array(window_true)).mean()
+      print(f"  Window {i+1} accuracy: {fold_acc:.4f}\n")
+      
+      # Save results to global collectors
+      all_dates_list.append(np.array(window_dates))
+      all_tickers_list.append(np.array(window_tickers)))
+      all_true_list.append(np.array(window_true))
+      all_pred_list.append(np.array(window_preds))
+      all_probs_list.append(np.array(window_probs))
+      all_logits_list.append(np.array(window_logits))
+      
 
-        print(f"  Window {i+1} accuracy: {fold_acc:.4f}\n")
+     print(f"  Window {i+1} accuracy: {fold_acc:.4f}\n")
 
-        window_accuracies.append(
-            (
-                i + 1,
-                train_end.date(),
-                test_start.date(),
-                (test_end - pd.Timedelta(days=1)).date(),
-                float(fold_acc),
-            )
-        )
+     window_accuracies.append(
+         (
+             i + 1,
+             train_end.date(),
+             test_start.date(),
+             (test_end - pd.Timedelta(days=1)).date(),
+             float(fold_acc),
+         )
+     )
 
-        # Save results for this window into global lists
-        all_probs_list.append(fold_probs)
-        all_true_list.append(fold_labels_arr)
-        all_pred_list.append(fold_preds)
-        all_dates_list.append(dates_test)
-        all_tickers_list.append(tickers_test)
+     # Save results for this window into global lists
+     all_probs_list.append(fold_probs)
+     all_true_list.append(fold_labels_arr)
+     all_pred_list.append(fold_preds)
+     all_dates_list.append(dates_test)
+     all_tickers_list.append(tickers_test)
 
     # ------------ 6) Combine results from all windows ------------
     if not all_probs_list:
