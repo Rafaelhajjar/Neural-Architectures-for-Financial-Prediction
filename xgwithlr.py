@@ -125,11 +125,15 @@ clf_model, clf_metrics, clf_test = train_xgb_classifier(
 print("\nXGBoost Classifier Metrics:")
 for k, v in clf_metrics.items():
     print(f"{k}: {v:.4f}")
+importance_df = (
+    pd.DataFrame.from_dict(importance_dict, orient="index", columns=["gain"])
+    .rename_axis("feature")
+    .sort_values("gain", ascending=False)
+)
 
+print("\nFeature Importance (Gain):")
+print(importance_df)
 
-# Feature importance
-fi_clf = get_feature_importance_gain(clf_model, feature_cols)
-print("\nClassifier Feature Importance:\n", fi_clf)
 
 
 # ---------------------------------------------------------
