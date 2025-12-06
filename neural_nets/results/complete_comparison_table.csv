@@ -1,0 +1,15 @@
+dataset,model,loss,sharpe,return,max_drawdown,parameters,ranking
+17_stocks,Deep Late Fusion Ensemble,MSE,2.07,0.8914,-0.1035,71297,1
+17_stocks,Late Fusion Ranker,MSE,1.58,0.6192,-0.1989,6849,2
+17_stocks,Deep Combined,MSE,1.44,0.4891,-0.0829,95873,3
+17_stocks,Deep Late Fusion,MSE,0.42,0.1089,-0.2306,71297,4
+17_stocks,Combined Ranker,MSE,0.22,0.0361,-0.4263,11393,5
+17_stocks,Late Fusion Ranker,NDCG,0.208,0.0334,-0.2415,6849,6
+17_stocks,Combined Ranker,NDCG,-1.332,-0.3931,-0.4185,11393,7
+100_stocks,Deep Late Fusion,MSE,0.759,0.4282,-0.5118,71297,1
+100_stocks,Combined Ranker,NDCG,0.764,0.4292,-0.4606,11393,1
+100_stocks,Deep Combined,MSE,0.101,-0.1003,-0.3396,95873,3
+100_stocks,Late Fusion Ranker,MSE,-0.432,-0.3278,-0.4326,6849,4
+100_stocks,Late Fusion Ranker,NDCG,-0.433,-0.3029,-0.5337,6849,5
+100_stocks,Combined Ranker,MSE,-1.007,-0.5751,-0.7327,11393,6
+

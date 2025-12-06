@@ -1,0 +1,1723 @@
+======================================================================
+TRAINING ON EXPANDED 100-STOCK DATASET
+======================================================================
+Dataset: data/processed/features_expanded_100stocks_with_sentiment.parquet
+
+Total samples: 205,283
+Stocks: 100
+Date range: 2008-11-03 00:00:00 to 2016-12-29 00:00:00
+Train set: 129,783 samples (2008-11-03 00:00:00 to 2013-12-31 00:00:00)
+Val set:   37,600 samples (2014-01-02 00:00:00 to 2015-06-30 00:00:00)
+Test set:  37,900 samples (2015-07-01 00:00:00 to 2016-12-29 00:00:00)
+
+Device: cpu
+======================================================================
+
+======================================================================
+MODEL 1/5: Combined Ranker (MSE Baseline)
+======================================================================
+
+======================================================================
+Training combined_ranker_mse_expanded with MSE loss
+======================================================================
+
+Loading data from data/processed/features_with_sentiment.parquet...
+Dataset shape: (34612, 22)
+Date range: 2008-11-28 00:00:00 to 2016-12-29 00:00:00
+Number of stocks: 17
+Train set: 21,777 samples (2008-11-28 00:00:00 to 2013-12-31 00:00:00)
+Val set:   6,392 samples (2014-01-02 00:00:00 to 2015-06-30 00:00:00)
+Test set:  6,443 samples (2015-07-01 00:00:00 to 2016-12-29 00:00:00)
+Training combined_ranker_mse_expanded for 100 epochs...
+Device: cpu
+Model parameters: 11,393
+======================================================================
+Epoch 1/100 (0.2s)
+  Train Loss: 0.0011
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 2/100 (0.2s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 3/100 (0.2s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 4/100 (0.2s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 5/100 (0.2s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 6/100 (0.2s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 7/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 8/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 9/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 10/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 11/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 12/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 13/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 14/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 15/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 16/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 17/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 5/20
+
+Epoch 18/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 6/20
+
+Epoch 19/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 7/20
+
+Epoch 20/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 8/20
+
+Epoch 21/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 22/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 23/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 24/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 25/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 26/100 (0.3s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 5/20
+
+Epoch 27/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 6/20
+
+Epoch 28/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 7/20
+
+Epoch 29/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 8/20
+
+Epoch 30/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 9/20
+
+Epoch 31/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 10/20
+
+Epoch 32/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 11/20
+
+Epoch 33/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 12/20
+
+Epoch 34/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 13/20
+
+Epoch 35/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 14/20
+
+Epoch 36/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 15/20
+
+Epoch 37/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 16/20
+
+Epoch 38/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 17/20
+
+Epoch 39/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 18/20
+
+Epoch 40/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 19/20
+
+Epoch 41/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 20/20
+
+Early stopping triggered at epoch 41
+
+Loaded best model (val_loss: 0.0003)
+
+Training complete! Total time: 0.1 minutes
+======================================================================
+
+✅ Combined Ranker trained successfully!
+
+======================================================================
+MODEL 2/5: Late Fusion Ranker (MSE)
+======================================================================
+
+======================================================================
+Training late_fusion_ranker_mse_expanded with MSE loss
+======================================================================
+
+Loading data from data/processed/features_with_sentiment.parquet...
+Dataset shape: (34612, 22)
+Date range: 2008-11-28 00:00:00 to 2016-12-29 00:00:00
+Number of stocks: 17
+Train set: 21,777 samples (2008-11-28 00:00:00 to 2013-12-31 00:00:00)
+Val set:   6,392 samples (2014-01-02 00:00:00 to 2015-06-30 00:00:00)
+Test set:  6,443 samples (2015-07-01 00:00:00 to 2016-12-29 00:00:00)
+Training late_fusion_ranker_mse_expanded for 100 epochs...
+Device: cpu
+Model parameters: 6,849
+======================================================================
+Epoch 1/100 (0.1s)
+  Train Loss: 0.0031
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 2/100 (0.1s)
+  Train Loss: 0.0012
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 3/100 (0.1s)
+  Train Loss: 0.0010
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 4/100 (0.1s)
+  Train Loss: 0.0009
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 5/100 (0.1s)
+  Train Loss: 0.0008
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 6/100 (0.1s)
+  Train Loss: 0.0007
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 7/100 (0.1s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 8/100 (0.1s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 9/100 (0.1s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 10/100 (0.1s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 11/100 (0.1s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 5/20
+
+Epoch 12/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 6/20
+
+Epoch 13/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 7/20
+
+Epoch 14/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 8/20
+
+Epoch 15/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 9/20
+
+Epoch 16/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 10/20
+
+Epoch 17/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 11/20
+
+Epoch 18/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 12/20
+
+Epoch 19/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 13/20
+
+Epoch 20/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 14/20
+
+Epoch 21/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 15/20
+
+Epoch 22/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 16/20
+
+Epoch 23/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 17/20
+
+Epoch 24/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 18/20
+
+Epoch 25/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 19/20
+
+Epoch 26/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 20/20
+
+Early stopping triggered at epoch 26
+
+Loaded best model (val_loss: 0.0003)
+
+Training complete! Total time: 0.1 minutes
+======================================================================
+
+✅ Late Fusion Ranker trained successfully!
+
+======================================================================
+MODEL 3/5: Deep Late Fusion
+======================================================================
+
+======================================================================
+Training deep_late_fusion_mse_expanded with MSE loss
+======================================================================
+
+Loading data from data/processed/features_with_sentiment.parquet...
+Dataset shape: (34612, 22)
+Date range: 2008-11-28 00:00:00 to 2016-12-29 00:00:00
+Number of stocks: 17
+Train set: 21,777 samples (2008-11-28 00:00:00 to 2013-12-31 00:00:00)
+Val set:   6,392 samples (2014-01-02 00:00:00 to 2015-06-30 00:00:00)
+Test set:  6,443 samples (2015-07-01 00:00:00 to 2016-12-29 00:00:00)
+Training deep_late_fusion_mse_expanded for 100 epochs...
+Device: cpu
+Model parameters: 71,297
+======================================================================
+Epoch 1/100 (0.7s)
+  Train Loss: 0.0495
+  Val Loss:   0.0011 | LR: 0.001000
+
+Epoch 2/100 (0.7s)
+  Train Loss: 0.0094
+  Val Loss:   0.0004 | LR: 0.001000
+
+Epoch 3/100 (0.7s)
+  Train Loss: 0.0036
+  Val Loss:   0.0004 | LR: 0.001000
+
+Epoch 4/100 (0.7s)
+  Train Loss: 0.0020
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 5/100 (0.7s)
+  Train Loss: 0.0014
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 6/100 (0.7s)
+  Train Loss: 0.0011
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 7/100 (0.7s)
+  Train Loss: 0.0010
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 8/100 (0.7s)
+  Train Loss: 0.0008
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 9/100 (0.9s)
+  Train Loss: 0.0007
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 10/100 (1.0s)
+  Train Loss: 0.0007
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 11/100 (0.8s)
+  Train Loss: 0.0007
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 12/100 (0.7s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 13/100 (0.7s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 14/100 (0.7s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 15/100 (0.7s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 16/100 (0.7s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 17/100 (0.7s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 18/100 (0.7s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 19/100 (0.6s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 20/100 (0.7s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 21/100 (0.6s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 22/100 (0.8s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 23/100 (0.7s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 5/20
+
+Epoch 24/100 (0.6s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 6/20
+
+Epoch 25/100 (0.7s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 7/20
+
+Epoch 26/100 (0.7s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 8/20
+
+Epoch 27/100 (0.6s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 9/20
+
+Epoch 28/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 10/20
+
+Epoch 29/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 11/20
+
+Epoch 30/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 12/20
+
+Epoch 31/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 13/20
+
+Epoch 32/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 14/20
+
+Epoch 33/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+
+Epoch 34/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 1/20
+
+Epoch 35/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+
+Epoch 36/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 1/20
+
+Epoch 37/100 (0.6s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 2/20
+
+Epoch 38/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 3/20
+
+Epoch 39/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 4/20
+
+Epoch 40/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 5/20
+
+Epoch 41/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 6/20
+
+Epoch 42/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 7/20
+
+Epoch 43/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 8/20
+
+Epoch 44/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 9/20
+
+Epoch 45/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 10/20
+
+Epoch 46/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 11/20
+
+Epoch 47/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 12/20
+
+Epoch 48/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 13/20
+
+Epoch 49/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 14/20
+
+Epoch 50/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 15/20
+
+Epoch 51/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 16/20
+
+Epoch 52/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 17/20
+
+Epoch 53/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 18/20
+
+Epoch 54/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 19/20
+
+Epoch 55/100 (0.7s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 20/20
+
+Early stopping triggered at epoch 55
+
+Loaded best model (val_loss: 0.0003)
+
+Training complete! Total time: 0.6 minutes
+======================================================================
+
+✅ Deep Late Fusion trained successfully!
+
+======================================================================
+MODEL 4/5: Deep Combined
+======================================================================
+
+======================================================================
+Training deep_combined_mse_expanded with MSE loss
+======================================================================
+
+Loading data from data/processed/features_with_sentiment.parquet...
+Dataset shape: (34612, 22)
+Date range: 2008-11-28 00:00:00 to 2016-12-29 00:00:00
+Number of stocks: 17
+Train set: 21,777 samples (2008-11-28 00:00:00 to 2013-12-31 00:00:00)
+Val set:   6,392 samples (2014-01-02 00:00:00 to 2015-06-30 00:00:00)
+Test set:  6,443 samples (2015-07-01 00:00:00 to 2016-12-29 00:00:00)
+Training deep_combined_mse_expanded for 100 epochs...
+Device: cpu
+Model parameters: 112,577
+======================================================================
+Epoch 1/100 (0.5s)
+  Train Loss: 0.0270
+  Val Loss:   0.0017 | LR: 0.001000
+
+Epoch 2/100 (0.5s)
+  Train Loss: 0.0061
+  Val Loss:   0.0006 | LR: 0.001000
+
+Epoch 3/100 (0.5s)
+  Train Loss: 0.0027
+  Val Loss:   0.0004 | LR: 0.001000
+
+Epoch 4/100 (0.5s)
+  Train Loss: 0.0016
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 5/100 (0.5s)
+  Train Loss: 0.0012
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 6/100 (0.5s)
+  Train Loss: 0.0009
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 7/100 (0.5s)
+  Train Loss: 0.0008
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 8/100 (0.5s)
+  Train Loss: 0.0007
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 9/100 (0.5s)
+  Train Loss: 0.0007
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 10/100 (0.4s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 11/100 (0.5s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 12/100 (0.4s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 13/100 (0.4s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 14/100 (0.5s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 15/100 (0.4s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 16/100 (0.5s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 17/100 (0.5s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 18/100 (0.5s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 19/100 (0.5s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 20/100 (0.5s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 21/100 (0.5s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 5/20
+
+Epoch 22/100 (0.5s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 6/20
+
+Epoch 23/100 (0.5s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 7/20
+
+Epoch 24/100 (0.4s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 8/20
+
+Epoch 25/100 (0.4s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 9/20
+
+Epoch 26/100 (0.4s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 10/20
+
+Epoch 27/100 (0.4s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 11/20
+
+Epoch 28/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 12/20
+
+Epoch 29/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 13/20
+
+Epoch 30/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 14/20
+
+Epoch 31/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 15/20
+
+Epoch 32/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+
+Epoch 33/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 1/20
+
+Epoch 34/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 2/20
+
+Epoch 35/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+
+Epoch 36/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 1/20
+
+Epoch 37/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 2/20
+
+Epoch 38/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 3/20
+
+Epoch 39/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 4/20
+
+Epoch 40/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 5/20
+
+Epoch 41/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 6/20
+
+Epoch 42/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 7/20
+
+Epoch 43/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 8/20
+
+Epoch 44/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 9/20
+
+Epoch 45/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+
+Epoch 46/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 1/20
+
+Epoch 47/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 2/20
+
+Epoch 48/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 3/20
+
+Epoch 49/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 4/20
+
+Epoch 50/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 5/20
+
+Epoch 51/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 6/20
+
+Epoch 52/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 7/20
+
+Epoch 53/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 8/20
+
+Epoch 54/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 9/20
+
+Epoch 55/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 10/20
+
+Epoch 56/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 11/20
+
+Epoch 57/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 12/20
+
+Epoch 58/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 13/20
+
+Epoch 59/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 14/20
+
+Epoch 60/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 15/20
+
+Epoch 61/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 16/20
+
+Epoch 62/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 17/20
+
+Epoch 63/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 18/20
+
+Epoch 64/100 (0.4s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 19/20
+
+Epoch 65/100 (0.5s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000250
+  Early stopping: 20/20
+
+Early stopping triggered at epoch 65
+
+Loaded best model (val_loss: 0.0003)
+
+Training complete! Total time: 0.5 minutes
+======================================================================
+
+✅ Deep Combined trained successfully!
+
+======================================================================
+MODEL 5/5: Late Fusion Ensemble (3 members)
+======================================================================
+
+======================================================================
+TRAINING ENSEMBLE: late_fusion_ensemble_expanded
+Members: 3
+======================================================================
+
+======================================================================
+Training late_fusion_ensemble_expanded (seed=42)
+======================================================================
+Loading data from data/processed/features_with_sentiment.parquet...
+Dataset shape: (34612, 22)
+Date range: 2008-11-28 00:00:00 to 2016-12-29 00:00:00
+Number of stocks: 17
+Train set: 21,777 samples (2008-11-28 00:00:00 to 2013-12-31 00:00:00)
+Val set:   6,392 samples (2014-01-02 00:00:00 to 2015-06-30 00:00:00)
+Test set:  6,443 samples (2015-07-01 00:00:00 to 2016-12-29 00:00:00)
+Model parameters: 6,849
+Training late_fusion_ensemble_expanded_seed42 for 100 epochs...
+Device: cpu
+Model parameters: 6,849
+======================================================================
+Epoch 1/100 (0.2s)
+  Train Loss: 0.0014
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 2/100 (0.1s)
+  Train Loss: 0.0007
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 3/100 (0.1s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 4/100 (0.1s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 5/100 (0.1s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 6/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 7/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 8/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 9/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 10/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 11/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 12/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 13/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 14/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 15/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 16/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 17/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 18/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 19/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 20/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 21/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 5/20
+
+Epoch 22/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 6/20
+
+Epoch 23/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 7/20
+
+Epoch 24/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 8/20
+
+Epoch 25/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 9/20
+
+Epoch 26/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 10/20
+
+Epoch 27/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 11/20
+
+Epoch 28/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 12/20
+
+Epoch 29/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 13/20
+
+Epoch 30/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 14/20
+
+Epoch 31/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 15/20
+
+Epoch 32/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 16/20
+
+Epoch 33/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 17/20
+
+Epoch 34/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 18/20
+
+Epoch 35/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 19/20
+
+Epoch 36/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 20/20
+
+Early stopping triggered at epoch 36
+
+Loaded best model (val_loss: 0.0003)
+
+Training complete! Total time: 0.1 minutes
+======================================================================
+
+✅ Member 1/3 complete
+
+======================================================================
+Training late_fusion_ensemble_expanded (seed=43)
+======================================================================
+Loading data from data/processed/features_with_sentiment.parquet...
+Dataset shape: (34612, 22)
+Date range: 2008-11-28 00:00:00 to 2016-12-29 00:00:00
+Number of stocks: 17
+Train set: 21,777 samples (2008-11-28 00:00:00 to 2013-12-31 00:00:00)
+Val set:   6,392 samples (2014-01-02 00:00:00 to 2015-06-30 00:00:00)
+Test set:  6,443 samples (2015-07-01 00:00:00 to 2016-12-29 00:00:00)
+Model parameters: 6,849
+Training late_fusion_ensemble_expanded_seed43 for 100 epochs...
+Device: cpu
+Model parameters: 6,849
+======================================================================
+Epoch 1/100 (0.1s)
+  Train Loss: 0.0007
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 2/100 (0.1s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 3/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 4/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 5/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 6/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 7/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 8/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 9/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 10/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 11/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 12/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 13/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 14/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 15/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 16/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 17/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 18/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 19/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 20/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 5/20
+
+Epoch 21/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 6/20
+
+Epoch 22/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 7/20
+
+Epoch 23/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 8/20
+
+Epoch 24/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 25/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 26/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 27/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 28/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 29/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 5/20
+
+Epoch 30/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 6/20
+
+Epoch 31/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 7/20
+
+Epoch 32/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 33/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 34/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 35/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 36/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 37/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 5/20
+
+Epoch 38/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 6/20
+
+Epoch 39/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 7/20
+
+Epoch 40/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 8/20
+
+Epoch 41/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 9/20
+
+Epoch 42/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 10/20
+
+Epoch 43/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 11/20
+
+Epoch 44/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 12/20
+
+Epoch 45/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 13/20
+
+Epoch 46/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 14/20
+
+Epoch 47/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 15/20
+
+Epoch 48/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 16/20
+
+Epoch 49/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 17/20
+
+Epoch 50/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 18/20
+
+Epoch 51/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 19/20
+
+Epoch 52/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 20/20
+
+Early stopping triggered at epoch 52
+
+Loaded best model (val_loss: 0.0003)
+
+Training complete! Total time: 0.1 minutes
+======================================================================
+
+✅ Member 2/3 complete
+
+======================================================================
+Training late_fusion_ensemble_expanded (seed=44)
+======================================================================
+Loading data from data/processed/features_with_sentiment.parquet...
+Dataset shape: (34612, 22)
+Date range: 2008-11-28 00:00:00 to 2016-12-29 00:00:00
+Number of stocks: 17
+Train set: 21,777 samples (2008-11-28 00:00:00 to 2013-12-31 00:00:00)
+Val set:   6,392 samples (2014-01-02 00:00:00 to 2015-06-30 00:00:00)
+Test set:  6,443 samples (2015-07-01 00:00:00 to 2016-12-29 00:00:00)
+Model parameters: 6,849
+Training late_fusion_ensemble_expanded_seed44 for 100 epochs...
+Device: cpu
+Model parameters: 6,849
+======================================================================
+Epoch 1/100 (0.2s)
+  Train Loss: 0.0017
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 2/100 (0.1s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 3/100 (0.1s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 4/100 (0.1s)
+  Train Loss: 0.0006
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 5/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 6/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 7/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 8/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 9/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 10/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 11/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 12/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 13/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 14/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 15/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 5/20
+
+Epoch 16/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+
+Epoch 17/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 18/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 19/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 20/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 21/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 5/20
+
+Epoch 22/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 6/20
+
+Epoch 23/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 7/20
+
+Epoch 24/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 8/20
+
+Epoch 25/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 9/20
+
+Epoch 26/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 10/20
+
+Epoch 27/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.001000
+  Early stopping: 11/20
+
+Epoch 28/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 12/20
+
+Epoch 29/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 13/20
+
+Epoch 30/100 (0.2s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 14/20
+
+Epoch 31/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 15/20
+
+Epoch 32/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 16/20
+
+Epoch 33/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 17/20
+
+Epoch 34/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 18/20
+
+Epoch 35/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 19/20
+
+Epoch 36/100 (0.1s)
+  Train Loss: 0.0005
+  Val Loss:   0.0003 | LR: 0.000500
+  Early stopping: 20/20
+
+Early stopping triggered at epoch 36
+
+Loaded best model (val_loss: 0.0003)
+
+Training complete! Total time: 0.1 minutes
+======================================================================
+
+✅ Member 3/3 complete
+
+======================================================================
+ENSEMBLE TRAINING COMPLETE: late_fusion_ensemble_expanded
+======================================================================
+
+✅ Ensemble trained successfully!
+
+Ensemble info saved
+
+
+======================================================================
+TRAINING COMPLETE - SUMMARY
+======================================================================
+Combined Ranker (MSE)          SUCCESS    Val Loss: 0.000289
+Late Fusion Ranker (MSE)       SUCCESS    Val Loss: 0.000291
+Deep Late Fusion               SUCCESS    Val Loss: 0.000289
+Deep Combined                  SUCCESS    Val Loss: 0.000289
+Late Fusion Ensemble           SUCCESS    Val Loss: 0.000290
+
+Successful: 5/5
+
+🎉 All models trained on expanded dataset!
+
+Expected changes vs 17-stock dataset:
+  - Lower Sharpe ratio (more realistic)
+  - Lower absolute returns
+  - But much more generalizable!
+
+Next: Evaluate models and compare to original results
+======================================================================

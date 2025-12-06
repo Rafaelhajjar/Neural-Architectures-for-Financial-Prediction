@@ -1,0 +1,101 @@
+/Users/rafaelhajjar/Documents/5200fp/neural_nets/timeseries_cv_controlled_fusion.py:340: MatplotlibDeprecationWarning: The 'labels' parameter of boxplot() has been renamed 'tick_labels' since Matplotlib 3.9; support for the old name will be dropped in 3.11.
+  bp = ax3.boxplot([early_sharpes, late_sharpes],
+/Users/rafaelhajjar/Documents/5200fp/neural_nets/timeseries_cv_controlled_fusion.py:443: UserWarning: Glyph 65039 (\N{VARIATION SELECTOR-16}) missing from font(s) DejaVu Sans Mono.
+  plt.savefig(save_dir / '6_timeseries_cross_validation.png',
+================================================================================
+TIME SERIES CROSS-VALIDATION: Early vs Late Fusion
+================================================================================
+
+Loading data from /Users/rafaelhajjar/Documents/5200fp/data/processed/features_expanded_100stocks_with_sentiment.parquet...
+Dataset shape: (205283, 13)
+Date range: 2008-11-03 00:00:00 to 2016-12-29 00:00:00
+Number of stocks: 100
+Train set: 129,683 samples (2008-11-03 00:00:00 to 2013-12-30 00:00:00)
+Val set:   37,600 samples (2013-12-31 00:00:00 to 2015-06-29 00:00:00)
+Test set:  38,000 samples (2015-06-30 00:00:00 to 2016-12-29 00:00:00)
+Test period: 2015-06-30 00:00:00 to 2016-12-29 00:00:00
+Total test samples: 38,000
+
+Models loaded successfully
+
+Evaluating on time periods:
+--------------------------------------------------------------------------------
+
+Q3 2015 (2015-07-01 to 2015-09-30)
+  Samples: 6,400
+  Early Fusion: Sharpe -1.477, Return -12.6%
+  Late Fusion:  Sharpe -1.219, Return -13.2%
+  Winner: Late 🏆
+
+Q4 2015 (2015-10-01 to 2015-12-31)
+  Samples: 6,400
+  Early Fusion: Sharpe -0.919, Return -11.1%
+  Late Fusion:  Sharpe 0.618, Return +8.7%
+  Winner: Late 🏆
+
+Q1 2016 (2016-01-01 to 2016-03-31)
+  Samples: 6,100
+  Early Fusion: Sharpe 2.308, Return +41.9%
+  Late Fusion:  Sharpe 1.853, Return +36.9%
+  Winner: Early 🏆
+
+Q2 2016 (2016-04-01 to 2016-06-30)
+  Samples: 6,400
+  Early Fusion: Sharpe 1.186, Return +15.9%
+  Late Fusion:  Sharpe 1.687, Return +21.4%
+  Winner: Late 🏆
+
+Q3 2016 (2016-07-01 to 2016-09-30)
+  Samples: 6,400
+  Early Fusion: Sharpe -3.971, Return -41.2%
+  Late Fusion:  Sharpe 0.773, Return +7.2%
+  Winner: Late 🏆
+
+Q4 2016 (2016-10-01 to 2016-12-31)
+  Samples: 6,200
+  Early Fusion: Sharpe 1.077, Return +11.7%
+  Late Fusion:  Sharpe -0.389, Return -4.3%
+  Winner: Early 🏆
+
+================================================================================
+
+STATISTICAL ANALYSIS
+================================================================================
+
+Early Fusion (across 6 periods):
+  Mean Sharpe:   -0.299
+  Std Sharpe:    2.088
+  Min Sharpe:    -3.971
+  Max Sharpe:    2.308
+  Positive periods: 3/6
+
+Late Fusion (across 6 periods):
+  Mean Sharpe:   0.554
+  Std Sharpe:    1.084
+  Min Sharpe:    -1.219
+  Max Sharpe:    1.853
+  Positive periods: 4/6
+
+Paired t-test:
+  t-statistic: -0.971
+  p-value:     0.376289
+  ⚠️ Difference not statistically significant (p >= 0.05)
+
+Period-by-period wins:
+  Early Fusion: 2/6
+  Late Fusion:  4/6
+
+💾 Results saved to: /Users/rafaelhajjar/Documents/5200fp/neural_nets/results/timeseries_cv_results.csv
+
+================================================================================
+CREATING VISUALIZATIONS
+================================================================================
+
+✓ Time series cross-validation plot saved
+✓ Period details plot saved
+
+💾 All visualizations saved to: /Users/rafaelhajjar/Documents/5200fp/neural_nets/controlled_fusion_visualizations/
+
+================================================================================
+✅ TIME SERIES CROSS-VALIDATION COMPLETE!
+================================================================================

@@ -1,0 +1,476 @@
+======================================================================
+TRAINING NDCG MODELS ON EXPANDED 100-STOCK DATASET (FIXED)
+======================================================================
+Testing novel ranking loss on 100-stock diverse dataset
+
+Loading: data/processed/features_expanded_100stocks_with_sentiment.parquet
+✅ Dataset loaded: 205,283 samples, 100 stocks
+
+Train set: 129,783 samples (2008-11-03 00:00:00 to 2013-12-31 00:00:00)
+Val set:   37,600 samples (2014-01-02 00:00:00 to 2015-06-30 00:00:00)
+Test set:  37,900 samples (2015-07-01 00:00:00 to 2016-12-29 00:00:00)
+Creating data loaders...
+Device: cpu
+======================================================================
+
+======================================================================
+MODEL 1/2: Combined Ranker (NDCG Loss) on 100 stocks
+======================================================================
+Training Combined Ranker with NDCG loss...
+Training combined_ranker_ndcg_expanded_fixed for 100 epochs...
+Device: cpu
+Model parameters: 11,393
+======================================================================
+Epoch 1/100 (2.7s)
+  Train Loss: 0.3499
+  Val Loss:   0.3520 | LR: 0.001000
+
+Epoch 2/100 (2.6s)
+  Train Loss: 0.3510
+  Val Loss:   0.3452 | LR: 0.001000
+
+Epoch 3/100 (2.6s)
+  Train Loss: 0.3506
+  Val Loss:   0.3464 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 4/100 (2.7s)
+  Train Loss: 0.3463
+  Val Loss:   0.3479 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 5/100 (2.8s)
+  Train Loss: 0.3519
+  Val Loss:   0.3534 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 6/100 (2.7s)
+  Train Loss: 0.3468
+  Val Loss:   0.3393 | LR: 0.001000
+
+Epoch 7/100 (2.6s)
+  Train Loss: 0.3489
+  Val Loss:   0.3403 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 8/100 (2.5s)
+  Train Loss: 0.3490
+  Val Loss:   0.3416 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 9/100 (2.9s)
+  Train Loss: 0.3513
+  Val Loss:   0.3421 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 10/100 (2.7s)
+  Train Loss: 0.3474
+  Val Loss:   0.3456 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 11/100 (2.6s)
+  Train Loss: 0.3493
+  Val Loss:   0.3451 | LR: 0.001000
+  Early stopping: 5/20
+
+Epoch 12/100 (2.6s)
+  Train Loss: 0.3514
+  Val Loss:   0.3435 | LR: 0.001000
+  Early stopping: 6/20
+
+Epoch 13/100 (2.6s)
+  Train Loss: 0.3491
+  Val Loss:   0.3435 | LR: 0.001000
+  Early stopping: 7/20
+
+Epoch 14/100 (2.7s)
+  Train Loss: 0.3485
+  Val Loss:   0.3440 | LR: 0.001000
+  Early stopping: 8/20
+
+Epoch 15/100 (2.6s)
+  Train Loss: 0.3486
+  Val Loss:   0.3445 | LR: 0.001000
+  Early stopping: 9/20
+
+Epoch 16/100 (2.6s)
+  Train Loss: 0.3492
+  Val Loss:   0.3399 | LR: 0.001000
+  Early stopping: 10/20
+
+Epoch 17/100 (2.9s)
+  Train Loss: 0.3457
+  Val Loss:   0.3400 | LR: 0.001000
+  Early stopping: 11/20
+
+Epoch 18/100 (2.9s)
+  Train Loss: 0.3457
+  Val Loss:   0.3395 | LR: 0.000500
+  Early stopping: 12/20
+
+Epoch 19/100 (2.6s)
+  Train Loss: 0.3496
+  Val Loss:   0.3380 | LR: 0.000500
+
+Epoch 20/100 (2.6s)
+  Train Loss: 0.3490
+  Val Loss:   0.3397 | LR: 0.000500
+  Early stopping: 1/20
+
+Epoch 21/100 (3.4s)
+  Train Loss: 0.3476
+  Val Loss:   0.3388 | LR: 0.000500
+  Early stopping: 2/20
+
+Epoch 22/100 (2.7s)
+  Train Loss: 0.3520
+  Val Loss:   0.3381 | LR: 0.000500
+  Early stopping: 3/20
+
+Epoch 23/100 (2.6s)
+  Train Loss: 0.3479
+  Val Loss:   0.3384 | LR: 0.000500
+  Early stopping: 4/20
+
+Epoch 24/100 (2.6s)
+  Train Loss: 0.3471
+  Val Loss:   0.3387 | LR: 0.000500
+  Early stopping: 5/20
+
+Epoch 25/100 (2.6s)
+  Train Loss: 0.3492
+  Val Loss:   0.3386 | LR: 0.000500
+  Early stopping: 6/20
+
+Epoch 26/100 (2.6s)
+  Train Loss: 0.3472
+  Val Loss:   0.3391 | LR: 0.000500
+  Early stopping: 7/20
+
+Epoch 27/100 (2.6s)
+  Train Loss: 0.3465
+  Val Loss:   0.3380 | LR: 0.000500
+
+Epoch 28/100 (3.1s)
+  Train Loss: 0.3474
+  Val Loss:   0.3371 | LR: 0.000500
+
+Epoch 29/100 (2.6s)
+  Train Loss: 0.3468
+  Val Loss:   0.3395 | LR: 0.000500
+  Early stopping: 1/20
+
+Epoch 30/100 (2.6s)
+  Train Loss: 0.3470
+  Val Loss:   0.3402 | LR: 0.000500
+  Early stopping: 2/20
+
+Epoch 31/100 (2.6s)
+  Train Loss: 0.3475
+  Val Loss:   0.3399 | LR: 0.000500
+  Early stopping: 3/20
+
+Epoch 32/100 (2.6s)
+  Train Loss: 0.3479
+  Val Loss:   0.3395 | LR: 0.000500
+  Early stopping: 4/20
+
+Epoch 33/100 (3.0s)
+  Train Loss: 0.3474
+  Val Loss:   0.3397 | LR: 0.000500
+  Early stopping: 5/20
+
+Epoch 34/100 (2.6s)
+  Train Loss: 0.3445
+  Val Loss:   0.3382 | LR: 0.000500
+  Early stopping: 6/20
+
+Epoch 35/100 (2.6s)
+  Train Loss: 0.3482
+  Val Loss:   0.3379 | LR: 0.000500
+  Early stopping: 7/20
+
+Epoch 36/100 (2.6s)
+  Train Loss: 0.3469
+  Val Loss:   0.3382 | LR: 0.000500
+  Early stopping: 8/20
+
+Epoch 37/100 (2.9s)
+  Train Loss: 0.3477
+  Val Loss:   0.3383 | LR: 0.000500
+  Early stopping: 9/20
+
+Epoch 38/100 (2.6s)
+  Train Loss: 0.3517
+  Val Loss:   0.3380 | LR: 0.000500
+  Early stopping: 10/20
+
+Epoch 39/100 (2.6s)
+  Train Loss: 0.3466
+  Val Loss:   0.3379 | LR: 0.000500
+  Early stopping: 11/20
+
+Epoch 40/100 (2.6s)
+  Train Loss: 0.3474
+  Val Loss:   0.3379 | LR: 0.000250
+  Early stopping: 12/20
+
+Epoch 41/100 (2.7s)
+  Train Loss: 0.3459
+  Val Loss:   0.3380 | LR: 0.000250
+  Early stopping: 13/20
+
+Epoch 42/100 (2.6s)
+  Train Loss: 0.3505
+  Val Loss:   0.3373 | LR: 0.000250
+  Early stopping: 14/20
+
+Epoch 43/100 (3.0s)
+  Train Loss: 0.3442
+  Val Loss:   0.3381 | LR: 0.000250
+  Early stopping: 15/20
+
+Epoch 44/100 (2.8s)
+  Train Loss: 0.3500
+  Val Loss:   0.3382 | LR: 0.000250
+  Early stopping: 16/20
+
+Epoch 45/100 (3.4s)
+  Train Loss: 0.3469
+  Val Loss:   0.3381 | LR: 0.000250
+  Early stopping: 17/20
+
+Epoch 46/100 (2.7s)
+  Train Loss: 0.3477
+  Val Loss:   0.3376 | LR: 0.000250
+  Early stopping: 18/20
+
+Epoch 47/100 (2.9s)
+  Train Loss: 0.3471
+  Val Loss:   0.3377 | LR: 0.000250
+  Early stopping: 19/20
+
+Epoch 48/100 (2.6s)
+  Train Loss: 0.3471
+  Val Loss:   0.3376 | LR: 0.000250
+  Early stopping: 20/20
+
+Early stopping triggered at epoch 48
+
+Loaded best model (val_loss: 0.3371)
+
+Training complete! Total time: 2.2 minutes
+======================================================================
+
+✅ Combined Ranker (NDCG) trained successfully!
+
+======================================================================
+MODEL 2/2: Late Fusion Ranker (NDCG Loss) on 100 stocks
+======================================================================
+Training Late Fusion Ranker with NDCG loss...
+Training late_fusion_ranker_ndcg_expanded_fixed for 100 epochs...
+Device: cpu
+Model parameters: 6,849
+======================================================================
+Epoch 1/100 (2.5s)
+  Train Loss: 0.3521
+  Val Loss:   0.3470 | LR: 0.001000
+
+Epoch 2/100 (2.5s)
+  Train Loss: 0.3502
+  Val Loss:   0.3491 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 3/100 (2.5s)
+  Train Loss: 0.3479
+  Val Loss:   0.3499 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 4/100 (2.5s)
+  Train Loss: 0.3526
+  Val Loss:   0.3497 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 5/100 (2.5s)
+  Train Loss: 0.3480
+  Val Loss:   0.3500 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 6/100 (2.4s)
+  Train Loss: 0.3514
+  Val Loss:   0.3504 | LR: 0.001000
+  Early stopping: 5/20
+
+Epoch 7/100 (2.5s)
+  Train Loss: 0.3469
+  Val Loss:   0.3486 | LR: 0.001000
+  Early stopping: 6/20
+
+Epoch 8/100 (2.5s)
+  Train Loss: 0.3511
+  Val Loss:   0.3496 | LR: 0.001000
+  Early stopping: 7/20
+
+Epoch 9/100 (2.5s)
+  Train Loss: 0.3484
+  Val Loss:   0.3485 | LR: 0.001000
+  Early stopping: 8/20
+
+Epoch 10/100 (2.9s)
+  Train Loss: 0.3500
+  Val Loss:   0.3456 | LR: 0.001000
+
+Epoch 11/100 (2.6s)
+  Train Loss: 0.3473
+  Val Loss:   0.3453 | LR: 0.001000
+
+Epoch 12/100 (2.6s)
+  Train Loss: 0.3479
+  Val Loss:   0.3464 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 13/100 (2.6s)
+  Train Loss: 0.3504
+  Val Loss:   0.3460 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 14/100 (2.8s)
+  Train Loss: 0.3485
+  Val Loss:   0.3451 | LR: 0.001000
+
+Epoch 15/100 (2.6s)
+  Train Loss: 0.3491
+  Val Loss:   0.3474 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 16/100 (2.6s)
+  Train Loss: 0.3481
+  Val Loss:   0.3456 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 17/100 (2.5s)
+  Train Loss: 0.3470
+  Val Loss:   0.3442 | LR: 0.001000
+
+Epoch 18/100 (2.5s)
+  Train Loss: 0.3494
+  Val Loss:   0.3452 | LR: 0.001000
+  Early stopping: 1/20
+
+Epoch 19/100 (2.5s)
+  Train Loss: 0.3468
+  Val Loss:   0.3476 | LR: 0.001000
+  Early stopping: 2/20
+
+Epoch 20/100 (2.8s)
+  Train Loss: 0.3545
+  Val Loss:   0.3478 | LR: 0.001000
+  Early stopping: 3/20
+
+Epoch 21/100 (2.5s)
+  Train Loss: 0.3508
+  Val Loss:   0.3492 | LR: 0.001000
+  Early stopping: 4/20
+
+Epoch 22/100 (2.5s)
+  Train Loss: 0.3503
+  Val Loss:   0.3499 | LR: 0.001000
+  Early stopping: 5/20
+
+Epoch 23/100 (2.6s)
+  Train Loss: 0.3483
+  Val Loss:   0.3491 | LR: 0.001000
+  Early stopping: 6/20
+
+Epoch 24/100 (2.7s)
+  Train Loss: 0.3486
+  Val Loss:   0.3488 | LR: 0.001000
+  Early stopping: 7/20
+
+Epoch 25/100 (2.5s)
+  Train Loss: 0.3474
+  Val Loss:   0.3474 | LR: 0.001000
+  Early stopping: 8/20
+
+Epoch 26/100 (2.5s)
+  Train Loss: 0.3519
+  Val Loss:   0.3493 | LR: 0.001000
+  Early stopping: 9/20
+
+Epoch 27/100 (2.5s)
+  Train Loss: 0.3487
+  Val Loss:   0.3484 | LR: 0.001000
+  Early stopping: 10/20
+
+Epoch 28/100 (2.4s)
+  Train Loss: 0.3510
+  Val Loss:   0.3471 | LR: 0.001000
+  Early stopping: 11/20
+
+Epoch 29/100 (2.5s)
+  Train Loss: 0.3472
+  Val Loss:   0.3468 | LR: 0.000500
+  Early stopping: 12/20
+
+Epoch 30/100 (2.6s)
+  Train Loss: 0.3504
+  Val Loss:   0.3479 | LR: 0.000500
+  Early stopping: 13/20
+
+Epoch 31/100 (2.7s)
+  Train Loss: 0.3509
+  Val Loss:   0.3474 | LR: 0.000500
+  Early stopping: 14/20
+
+Epoch 32/100 (2.5s)
+  Train Loss: 0.3506
+  Val Loss:   0.3471 | LR: 0.000500
+  Early stopping: 15/20
+
+Epoch 33/100 (2.5s)
+  Train Loss: 0.3497
+  Val Loss:   0.3475 | LR: 0.000500
+  Early stopping: 16/20
+
+Epoch 34/100 (2.5s)
+  Train Loss: 0.3499
+  Val Loss:   0.3485 | LR: 0.000500
+  Early stopping: 17/20
+
+Epoch 35/100 (2.5s)
+  Train Loss: 0.3507
+  Val Loss:   0.3491 | LR: 0.000500
+  Early stopping: 18/20
+
+Epoch 36/100 (2.6s)
+  Train Loss: 0.3513
+  Val Loss:   0.3480 | LR: 0.000500
+  Early stopping: 19/20
+
+Epoch 37/100 (2.5s)
+  Train Loss: 0.3510
+  Val Loss:   0.3480 | LR: 0.000500
+  Early stopping: 20/20
+
+Early stopping triggered at epoch 37
+
+Loaded best model (val_loss: 0.3442)
+
+Training complete! Total time: 1.6 minutes
+======================================================================
+
+✅ Late Fusion Ranker (NDCG) trained successfully!
+
+
+======================================================================
+NDCG TRAINING COMPLETE - SUMMARY
+======================================================================
+Combined Ranker (NDCG)         SUCCESS    Val Loss: 0.337553
+Late Fusion Ranker (NDCG)      SUCCESS    Val Loss: 0.347983
+
+Successful: 2/2
+
+🎉 NDCG models trained on 100-stock expanded dataset!
+
+Next: Evaluate and compare with MSE models
+======================================================================

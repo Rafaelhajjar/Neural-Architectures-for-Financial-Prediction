@@ -1,0 +1,16 @@
+{
+  "num_members": 3,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "base_model": "LateFusionNet",
+  "dataset": "expanded_100stocks",
+  "val_losses": [
+    0.0002903456273558637,
+    0.000288516851106352,
+    0.00029117601793751853
+  ],
+  "avg_val_loss": 0.00029001283213324477
+}

@@ -1,0 +1,79 @@
+================================================================================
+CONTROLLED FUSION EVALUATION
+================================================================================
+
+Loading test data...
+Loading data from /Users/rafaelhajjar/Documents/5200fp/data/processed/features_expanded_100stocks_with_sentiment.parquet...
+Dataset shape: (205283, 13)
+Date range: 2008-11-03 00:00:00 to 2016-12-29 00:00:00
+Number of stocks: 100
+Train set: 129,683 samples (2008-11-03 00:00:00 to 2013-12-30 00:00:00)
+Val set:   37,600 samples (2013-12-31 00:00:00 to 2015-06-29 00:00:00)
+Test set:  38,000 samples (2015-06-30 00:00:00 to 2016-12-29 00:00:00)
+Test samples: 38,000
+Test period: 2015-06-30 00:00:00 to 2016-12-29 00:00:00
+
+================================================================================
+EVALUATING: EARLY FUSION
+================================================================================
+Parameters: 112,577
+Best val loss: 0.000615
+
+Computing predictions...
+Computing metrics...
+
+📊 EARLY FUSION RESULTS:
+  Spearman:     -0.0205 (p=6.5934e-05)
+  Kendall:      -0.0142
+  Pearson:      -0.0138
+  MSE:          0.000815
+  MAE:          0.018102
+  Sharpe Ratio: 0.9634
+  Total Return: 0.6913 (69.13%)
+  Max Drawdown: -0.4501 (-45.01%)
+  Win Rate:     0.5184 (51.8%)
+
+================================================================================
+EVALUATING: LATE FUSION
+================================================================================
+Parameters: 118,489
+Best val loss: 0.000613
+
+Computing predictions...
+Computing metrics...
+
+📊 LATE FUSION RESULTS:
+  Spearman:     0.0393 (p=1.8152e-14)
+  Kendall:      0.0262
+  Pearson:      0.0281
+  MSE:          0.000813
+  MAE:          0.018085
+  Sharpe Ratio: -0.7097
+  Total Return: -0.5234 (-52.34%)
+  Max Drawdown: -0.8693 (-86.93%)
+  Win Rate:     0.5079 (50.8%)
+
+================================================================================
+CONTROLLED COMPARISON RESULTS
+================================================================================
+
+Key Metrics Comparison:
+Metric               Early Fusion    Late Fusion     Winner         
+----------------------------------------------------------------------
+Sharpe Ratio                 0.9634        -0.7097          Early
+Total Return                 0.6913        -0.5234          Early
+Spearman                    -0.0205         0.0393           Late
+MSE                          0.0008         0.0008           Late
+Max Drawdown                -0.4501        -0.8693          Early
+Win Rate                     0.5184         0.5079          Early
+----------------------------------------------------------------------
+Score                             4              2
+
+🏆 WINNER: Early Fusion (4 vs 2)
+
+💾 Results saved to: /Users/rafaelhajjar/Documents/5200fp/neural_nets/results/controlled_fusion_comparison.csv
+💾 Predictions saved to: /Users/rafaelhajjar/Documents/5200fp/neural_nets/results/controlled_fusion_predictions.csv
+
+================================================================================
+✅ Evaluation complete!
+================================================================================
