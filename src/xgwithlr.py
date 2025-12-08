@@ -205,6 +205,12 @@ fi_rank.to_csv(out / "fi_ranker_xg_lr.csv")
 # ---------------------------------------------------------
 # Plot Confusion Matrix
 # ---------------------------------------------------------
+# Compute confusion matrix inputs
+y_true = clf_test["y_true"]
+y_pred = clf_test["y_pred"]
+
+cm = confusion_matrix(y_true, y_pred)
+
 plt.figure(figsize=(6, 5))
 plt.imshow(cm, cmap="viridis")
 plt.title("Confusion Matrix (Classifier)")
@@ -231,7 +237,7 @@ print("Saved confusion matrix plot to results/confusion_matrix_classifier.png")
 # ---------------------------------------------------------
 
 plt.figure(figsize=(10, 5))
-plt.plot(bt.index, bt.values)
+plt.plot(bt["date"], bt["cum_return"])
 plt.title("Equity Curve – XGBoost + Linear Regression Feature")
 plt.xlabel("Date")
 plt.ylabel("Cumulative Growth (Starting at 1.0)")
