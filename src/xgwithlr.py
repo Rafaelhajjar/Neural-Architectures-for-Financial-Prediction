@@ -201,4 +201,46 @@ bt.to_csv(out / "backtest_xg_lr.csv", index=False)
 fi_clf.to_csv(out / "fi_classifier_xg_lr.csv")
 fi_rank.to_csv(out / "fi_ranker_xg_lr.csv")
 
+
+# ---------------------------------------------------------
+# Plot Confusion Matrix
+# ---------------------------------------------------------
+plt.figure(figsize=(6, 5))
+plt.imshow(cm, cmap="viridis")
+plt.title("Confusion Matrix (Classifier)")
+plt.colorbar()
+
+# Tick labels
+plt.xticks([0, 1], ["Down (0)", "Up (1)"])
+plt.yticks([0, 1], ["Down (0)", "Up (1)"])
+
+# Annotate numbers
+for i in range(2):
+    for j in range(2):
+        plt.text(j, i, cm[i, j], ha="center", va="center", color="white", fontsize=12)
+
+plt.xlabel("Predicted Label")
+plt.ylabel("True Label")
+plt.tight_layout()
+plt.savefig("results/confusion_matrix_classifier.png", dpi=300)
+plt.close()
+
+print("Saved confusion matrix plot to results/confusion_matrix_classifier.png")
+# ---------------------------------------------------------
+# Equity Curve Plot (XGBoost + LR)
+# ---------------------------------------------------------
+
+plt.figure(figsize=(10, 5))
+plt.plot(bt.index, bt.values)
+plt.title("Equity Curve – XGBoost + Linear Regression Feature")
+plt.xlabel("Date")
+plt.ylabel("Cumulative Growth (Starting at 1.0)")
+plt.grid(True)
+
+plt.tight_layout()
+plt.savefig("results/equity_curve_xg_lr.png", dpi=300)
+plt.close()
+
+print("Saved equity curve to results/equity_curve_xg_lr.png")
+
 print("\nAll results saved to /results/")
